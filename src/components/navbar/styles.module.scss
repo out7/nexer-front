@@ -1,0 +1,38 @@
+.container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #18181b;
+  height: 72px;
+  border-top: 2px solid #ffffff26;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0 16px;
+}
+
+.navLink {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  text-decoration: none;
+  color: #6d6d6d;
+  font-size: 12px;
+  transition: color 0.2s ease;
+
+  .icon {
+    font-size: 24px;
+    color: #6d6d6d;
+    transition: color 0.2s ease;
+  }
+
+  &.active {
+    color: #124ee4;
+
+    .icon {
+      color: #124ee4;
+    }
+  }
+}
