@@ -1,0 +1,13 @@
+@import "tailwindcss";
+@import "./variables.scss";
+
+@config "../../tailwind.config.js";
+
+.container {
+  background: var(--background-primary);
+  height: 100vh;
+}
+
+body {
+  font-family: "Inter", sans-serif;
+}
