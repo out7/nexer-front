@@ -11,6 +11,10 @@
   right: 0;
   background: var(--background-primary);
   z-index: 100;
+
+  &[data-mobile="true"] {
+    top: 45px;
+  }
 }
 
 .title {
