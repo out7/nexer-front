@@ -2,6 +2,7 @@
   --background-primary: #171717;
   --background-secondary: #18181b;
   --background-tertiary: #18181b;
+  --background-help-item: #2b2b2b;
   --background-button: #124ee4;
 
   --border-primary: #ffffff26;
@@ -12,4 +13,12 @@
   --color-gold: #fc9707;
 
   --gradient-blue: linear-gradient(180deg, #2589fc 0%, #0951c8 100%);
+
+  /* Text colors */
+  --text-primary: #ffffff;
+  --text-secondary: #71717a;
+
+  /* Status colors */
+  --success: #17c964;
+  --warning: #f5a524;
 }

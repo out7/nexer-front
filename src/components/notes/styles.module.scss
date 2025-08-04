@@ -3,9 +3,15 @@
   border-radius: 12px;
   background: var(--background-tertiary);
   color: #fff;
-  margin-top: 24px;
   margin: 24px 20px;
-  padding: 15px;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.leftContent {
   display: flex;
   align-items: center;
 }

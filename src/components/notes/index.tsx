@@ -10,10 +10,12 @@ const Notes = () => {
 
   return (
     <div className={styles.container}>
-      <NotesIcon />
-      <div className={styles.content}>
-        <p className={styles.title}>{t("notes.title")}</p>
-        <p className={styles.description}>{t("notes.description")}</p>
+      <div className={styles.leftContent}>
+        <NotesIcon />
+        <div className={styles.content}>
+          <p className={styles.title}>{t("notes.title")}</p>
+          <p className={styles.description}>{t("notes.description")}</p>
+        </div>
       </div>
       <ArrowRight />
     </div>

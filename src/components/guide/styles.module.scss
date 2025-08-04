@@ -1,0 +1,248 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  color: var(--text-primary);
+  margin: 24px 20px;
+}
+
+.title {
+  font-size: 18px;
+  margin-bottom: 16px;
+  font-weight: 400;
+  line-height: 1.33;
+  color: var(--text-primary);
+}
+
+.tabs {
+  width: 100%;
+  border-radius: 6px;
+  padding: 4px;
+  display: flex;
+  border: 2px solid var(--border-primary);
+  background: var(--background-primary);
+  justify-content: space-between;
+  margin-bottom: 16px;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.tab {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 12px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  width: 110px;
+  justify-content: center;
+  font-size: 16px;
+  line-height: 1.5;
+  border: none;
+  background: none;
+
+  &[data-selected="true"] {
+    background: var(--background-button);
+    color: var(--text-primary);
+    box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+  }
+
+  &[data-selected="false"] {
+    color: var(--text-secondary);
+
+    &:hover {
+      color: rgba(255, 255, 255, 0.8);
+    }
+  }
+
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.apps {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.app {
+  background: var(--background-secondary);
+  border-radius: 12px;
+  border: 1px solid var(--border-primary);
+  box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+.appHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  cursor: pointer;
+}
+
+.appInfo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.appIcon {
+  width: 40px;
+  height: 40px;
+  background: var(--text-secondary);
+  border-radius: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--background-primary);
+}
+
+.appDescription {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  h3 {
+    font-size: 14px;
+    line-height: 1;
+    font-weight: 400;
+    margin: 0;
+    color: var(--text-primary);
+  }
+}
+
+.additionalInfo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  line-height: 1;
+  color: var(--text-primary);
+}
+
+.chip {
+  background: var(--success);
+  color: var(--background-primary);
+  padding: 0 4px;
+  border-radius: 9999px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  line-height: 1;
+}
+
+.chipAlternative {
+  @extend .chip;
+  background: var(--warning);
+}
+
+.expandButton {
+  width: 24px;
+  height: 24px;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: var(--color-gray);
+  transition: transform 0.3s ease;
+
+  &[data-expanded="true"] {
+    transform: rotate(180deg);
+  }
+}
+
+.divider {
+  height: 2px;
+  background: rgba(255, 255, 255, 0.15);
+  margin: 0;
+}
+
+.appContent {
+  overflow: hidden;
+}
+
+.steps {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 12px 0;
+}
+
+.step {
+  display: flex;
+  gap: 10px;
+  padding: 0 12px;
+}
+
+.stepNumber {
+  width: 24px;
+  height: 24px;
+  background: var(--background-primary);
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  line-height: 1.21;
+  color: var(--text-primary);
+}
+
+.stepContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.stepHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  h4 {
+    font-size: 14px;
+    line-height: 1;
+    font-weight: 400;
+    margin: 0;
+    color: var(--text-primary);
+  }
+
+  p {
+    font-size: 12px;
+    line-height: 1.17;
+    color: var(--text-secondary);
+    margin: 0;
+  }
+}
+
+.stepButtons {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  max-width: 289px;
+}
+
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 0;
+  background: var(--background-primary);
+  border-radius: 6px;
+  border: none;
+  color: var(--text-primary);
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+  text-decoration: none;
+  width: 100%;
+
+  &:hover {
+    opacity: 0.9;
+  }
+}
