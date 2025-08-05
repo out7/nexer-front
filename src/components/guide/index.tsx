@@ -157,51 +157,6 @@ const Guide = () => {
                         </div>
                       </div>
                     </div>
-                    <div className={styles.step}>
-                      <div className={styles.stepNumber}>1</div>
-                      <div className={styles.stepContent}>
-                        <div className={styles.stepHeader}>
-                          <h4>Установка приложения</h4>
-                          <p>{app.installationStep.description.ru}</p>
-                        </div>
-                        <div className={styles.stepButtons}>
-                          {app.installationStep.buttons.map((button, index) => (
-                            <a
-                              key={index}
-                              href={button.buttonLink}
-                              className={styles.button}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                            >
-                              {button.buttonText.ru}
-                            </a>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className={styles.step}>
-                      <div className={styles.stepNumber}>2</div>
-                      <div className={styles.stepContent}>
-                        <div className={styles.stepHeader}>
-                          <h4>Добавление подписки</h4>
-                          <p>{app.addSubscriptionStep.description.ru}</p>
-                        </div>
-                        <button className={styles.button}>
-                          Скопировать ссылку подписки
-                        </button>
-                      </div>
-                    </div>
-
-                    <div className={styles.step}>
-                      <div className={styles.stepNumber}>3</div>
-                      <div className={styles.stepContent}>
-                        <div className={styles.stepHeader}>
-                          <h4>Подключитесь и используйте</h4>
-                          <p>{app.connectAndUseStep.description.ru}</p>
-                        </div>
-                      </div>
-                    </div>
                   </motion.div>
                 </motion.div>
               )}

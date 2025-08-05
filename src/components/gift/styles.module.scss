@@ -26,6 +26,13 @@
   font-size: 12px;
 }
 
+.error {
+  color: #ff4d4d;
+  font-size: 12px;
+  text-align: center;
+  margin-top: 4px;
+}
+
 .button {
   background: var(--background-button);
   border-radius: 6px;
@@ -39,11 +46,41 @@
     opacity 0.2s ease,
     transform 0.2s ease;
 
-  &:hover {
+  &:hover:not(:disabled) {
     opacity: 0.8;
   }
 
-  &:active {
+  &:active:not(:disabled) {
     transform: scale(0.98);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  &.loading {
+    position: relative;
+    cursor: wait;
+
+    &::after {
+      content: "";
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      top: 50%;
+      right: 10px;
+      transform: translateY(-50%);
+      border: 2px solid #ffffff;
+      border-top-color: transparent;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: translateY(-50%) rotate(360deg);
   }
 }
