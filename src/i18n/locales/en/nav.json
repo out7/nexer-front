@@ -2,5 +2,39 @@
   "main": "Main",
   "tariffs": "Tariffs",
   "referrals": "Referrals",
-  "profile": "Profile"
+  "profile": "Profile",
+  "status": {
+    "active": "Active",
+    "expired": "Expired",
+    "noSubscription": "No subscription",
+    "title": "Subscription status",
+    "daysLeft": "Days left:",
+    "expiresAt": "Expires at:",
+    "traffic": "Traffic:",
+    "unlimited": "Unlimited",
+    "days": "{{count}} days",
+    "day_one": "{{count}} day",
+    "day_other": "{{count}} days",
+    "date": "{{date, MMMM DD, YYYY}}"
+  },
+  "gift": {
+    "title": "YOU HAVE",
+    "highlight": "A GIFT",
+    "description": "3 days of premium for free for new users",
+    "button": "Activate"
+  },
+  "premium": {
+    "title": "UPGRADE TO",
+    "highlight": "PREMIUM",
+    "features": {
+      "speed": "Ultra-fast connection",
+      "devices": "Connect up to 5 devices",
+      "traffic": "Unlimited traffic"
+    },
+    "button": "Get premium access"
+  },
+  "notes": {
+    "title": "Subscribe to channel",
+    "description": "Stay updated with service news, promotions and guides"
+  }
 }

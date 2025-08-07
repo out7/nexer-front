@@ -1,0 +1,33 @@
+.container {
+  border-bottom: 2px solid var(--border-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 8px 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: var(--background-primary);
+  z-index: 100;
+
+  &[data-mobile="true"] {
+    top: 45px;
+  }
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.subtitle {
+  font-size: 20px;
+  font-weight: 600;
+  background: var(--gradient-blue);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}

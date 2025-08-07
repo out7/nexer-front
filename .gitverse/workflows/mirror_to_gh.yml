@@ -1,0 +1,45 @@
+name: Mirror Repository
+
+on:
+  push:
+    branches:
+      - '*'
+    tags:
+      - '*'
+
+jobs:
+  mirror:
+    runs-on: ubuntu-cloud-runner
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configure Git
+        run: |
+          git config --global user.name "awbait"
+          git config --global user.email "awbait"
+
+      - name: Mirror to Remote (branch or tag)
+        env:
+          TARGET_REPO: 'https://${{ secrets.GH_MIRROR_ACTOR }}:${{ secrets.GH_MIRROR_TOKEN }}@github.com/${{ secrets.GH_MIRROR_ACTOR }}/${{ secrets.GH_MIRROR_REPO_FRONT }}'
+        run: |
+          git remote add target $TARGET_REPO
+
+          if [[ "${GITHUB_REF}" == refs/heads/* ]]; then
+            # Это пуш ветки
+            BRANCH="${GITHUB_REF#refs/heads/}"
+            echo "Mirroring branch $BRANCH"
+            git push target "refs/heads/${BRANCH}:refs/heads/${BRANCH}" --force
+          elif [[ "${GITHUB_REF}" == refs/tags/* ]]; then
+            # Это пуш тега
+            TAG="${GITHUB_REF#refs/tags/}"
+            echo "Mirroring tag $TAG"
+            git push target "refs/tags/${TAG}:refs/tags/${TAG}" --force
+          else
+            echo "Not a branch or tag push, skipping."
+          fi

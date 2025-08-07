@@ -3,9 +3,9 @@
   bottom: 0;
   left: 0;
   right: 0;
-  background: #18181b;
+  background: var(--background-secondary);
   height: 72px;
-  border-top: 2px solid #ffffff26;
+  border-top: 2px solid var(--border-primary);
   display: flex;
   justify-content: space-around;
   align-items: center;

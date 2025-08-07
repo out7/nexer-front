@@ -2,5 +2,40 @@
   "main": "Главная",
   "tariffs": "Тарифы",
   "referrals": "Рефералы",
-  "profile": "Профиль"
+  "profile": "Профиль",
+  "status": {
+    "active": "Активна",
+    "expired": "Истекла",
+    "noSubscription": "Нет подписки",
+    "title": "Статус подписки",
+    "daysLeft": "Дней осталось:",
+    "expiresAt": "Истечет:",
+    "traffic": "Трафик:",
+    "unlimited": "Безлимит",
+    "days": "{{count}} дней",
+    "day_one": "{{count}} день",
+    "day_few": "{{count}} дня",
+    "day_many": "{{count}} дней",
+    "date": "{{date, DD MMMM YYYY}}"
+  },
+  "gift": {
+    "title": "ВАМ",
+    "highlight": "ПОДАРОК",
+    "description": "Для новых пользователей 3 дня премиума бесплатно",
+    "button": "Активировать"
+  },
+  "premium": {
+    "title": "ПЕРЕХОДИ НА",
+    "highlight": "PREMIUM",
+    "features": {
+      "speed": "Сверхбыстрое подключение",
+      "devices": "Подключение до 5 устройств",
+      "traffic": "Неограниченный трафик"
+    },
+    "button": "Приобрести премиум доступ"
+  },
+  "notes": {
+    "title": "Подпишись на канал",
+    "description": "Будь в курсе работы сервиса, акций и инструкций"
+  }
 }
