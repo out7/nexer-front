@@ -1,4 +1,4 @@
-export const Referrals = (props: React.SVGProps<SVGSVGElement>) => {
+export const Referrals = () => {
   return (
     <svg
       width="25"

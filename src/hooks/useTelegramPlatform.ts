@@ -6,7 +6,7 @@ export const useTelegramPlatform = () => {
   const [platform, setPlatform] = useState<TelegramPlatform>("unknown");
 
   useEffect(() => {
-    const tg = window.Telegram?.WebApp;
+    const tg = (window as any)?.Telegram?.WebApp;
     if (tg) {
       setPlatform(tg.platform as TelegramPlatform);
     }

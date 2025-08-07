@@ -10,7 +10,6 @@ import { initData } from "@telegram-apps/sdk-react";
 import { components, operations } from "../lib/api/types/generated";
 
 type User = components["schemas"]["CustomerResponseDto"];
-type AuthTokensResponse = components["schemas"]["AuthTokensDto"];
 
 interface AuthContextType {
   user: User | null;

@@ -64,7 +64,8 @@ const initTranslations = async () => {
   }
 };
 
-await initTranslations().then(() => {
+// Инициализируем переводы
+initTranslations().then(() => {
   i18n.changeLanguage("ru");
 });
 
