@@ -16,10 +16,19 @@ import {
 
 import { isMobileDevice } from "./tools/isMobile";
 
-export async function telegramSDKInit(debug: boolean): Promise<void> {
-  setDebug(debug);
+export async function telegramSDKInit(options: {
+  debug: boolean;
+  eruda: boolean;
+}): Promise<void> {
+  setDebug(options.debug);
 
   initSDK();
+
+  options.eruda &&
+    void import("eruda").then(({ default: eruda }) => {
+      eruda.init();
+      eruda.position({ x: window.innerWidth - 50, y: 0 });
+    });
 
   mountBackButton.ifAvailable();
   restoreInitData();
@@ -35,7 +44,6 @@ export async function telegramSDKInit(debug: boolean): Promise<void> {
 
       if (requestFullscreen.isAvailable() && isMobileDevice()) {
         await requestFullscreen();
-        console.log(isFullscreen());
       }
     });
 }
@@ -43,7 +51,6 @@ export async function telegramSDKInit(debug: boolean): Promise<void> {
 export const handleBackButton = (callback: () => void) => {
   showBackButton();
   onBackButtonClick(() => {
-    console.log("back button clicked");
     callback();
   });
 };

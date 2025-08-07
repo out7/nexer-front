@@ -38,8 +38,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  console.log("user", user);
-
   const refreshUserData = async () => {
     try {
       const response =
