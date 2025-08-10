@@ -1,4 +1,316 @@
 .container {
   background: var(--background-primary);
-  height: 100vh;
+  min-height: var(--tg-viewport-stable-height, 100vh);
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding-top: max(env(safe-area-inset-top), 10px);
+  padding-bottom: 88px;
+  padding-top: 70px;
+}
+
+.loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 60vh;
+}
+
+.empty {
+  color: var(--text-secondary);
+  padding: 20px;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.sectionHeader {
+  padding: 0 20px;
+  color: #fff;
+  font-size: 18px;
+}
+
+.sectionSubHeader {
+  padding: 0 20px;
+  color: #b2b2b2;
+  font-size: 14px;
+}
+
+/* HeroUI RadioGroup overrides */
+.groupBase {
+}
+.groupWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0 20px;
+  align-items: stretch;
+}
+
+.tariffCard {
+  border-radius: 12px;
+  background: #18181b;
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.05),
+    0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  border: 1px solid #27272a !important;
+  padding: 16px 20px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  min-height: 72px;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.tariffCard + .tariffCard {
+  margin-top: 8px;
+}
+
+.tariffCard[data-selected="true"],
+.tariffCard[aria-checked="true"] {
+  border-color: #124ee4 !important;
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.05),
+    0 0 0 1px rgba(18, 78, 228, 0.35) inset;
+}
+.tariffCard[aria-checked="true"] {
+  border-color: #124ee4;
+}
+
+.tariffCard :global(input[type="radio"]) {
+  width: 100%;
+  height: 100%;
+}
+
+.tariffContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+.tariffLeftRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.tariffLeft {
+  display: flex;
+  flex-direction: column;
+}
+.tariffTitleRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.tariffTitle {
+  color: #f4f4f5;
+  font-size: 14px;
+}
+.discountBadge {
+  background: #124ee4;
+  color: #f4f4f5;
+  font-size: 12px;
+  padding: 0px 2px;
+  padding-top: 1px;
+  border-radius: 4px;
+}
+.priceRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 24px;
+}
+.pricePlaceholder {
+  height: 24px;
+}
+.oldPrice {
+  color: #b2b2b2;
+  text-decoration: line-through;
+}
+.newPrice {
+  color: #b2b2b2;
+}
+.tariffRight {
+  display: flex;
+  align-items: center;
+}
+.perMonth {
+  color: #f4f4f5;
+  font-size: 16px;
+}
+
+.radioIndicator {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1.5px solid #6d6d6d;
+  display: inline-block;
+  position: relative;
+}
+.radioIndicator[data-selected="true"] {
+  border-color: #124ee4;
+}
+.radioIndicator[data-selected="true"]::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 8px;
+  height: 8px;
+  background: #124ee4;
+  border-radius: 50%;
+}
+
+.features {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 0 20px;
+}
+.featureItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.featureIconWrap {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.featureText {
+  color: #ffffff;
+  font-size: 14px;
+}
+
+.featureItem svg {
+  width: 24px;
+  height: 24px;
+}
+
+.payCard {
+  border-radius: 12px;
+  background: #18181b;
+  border: 1px solid #27272a !important;
+  padding: 16px 20px;
+  width: 100%;
+  display: block;
+}
+
+.payCard + .payCard {
+  margin-top: 8px;
+}
+
+.payCard[data-selected="true"],
+.payCard[aria-checked="true"] {
+  border-color: #124ee4 !important;
+}
+.payCard[aria-checked="true"] {
+  border-color: #124ee4;
+}
+.payContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.payLeftRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.payLeft {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.payRight {
+  display: flex;
+  align-items: center;
+  color: #f4f4f5;
+}
+
+.payRight svg {
+  width: 16px;
+  height: 16px;
+}
+.payLabel {
+  color: #f4f4f5;
+}
+
+.payLeft span,
+.tariffTitle,
+.newPrice,
+.summaryTitle,
+.summaryLeft,
+.summaryRight,
+.summaryLeftStrong,
+.summaryRightStrong {
+  color: #f4f4f5;
+}
+
+.summaryCard {
+  border-radius: 12px;
+  background: #18181b;
+  border: 1px solid #27272a;
+  padding: 20px;
+  margin: 0 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.summaryTitle {
+  color: #f4f4f5;
+  font-size: 16px;
+}
+.summaryRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.summaryLeft {
+  color: #b2b2b2;
+}
+.summaryRight {
+  color: #b2b2b2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+}
+.summaryLeftStrong {
+  color: #f4f4f5;
+}
+.summaryRightStrong {
+  color: #f4f4f5;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+.divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.payButton {
+  margin: 0 20px;
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 0;
+  background: #124ee4;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.25);
 }

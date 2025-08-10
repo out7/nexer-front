@@ -3,6 +3,7 @@ import type { NavigateOptions } from "react-router-dom";
 import { useHref, useNavigate } from "react-router-dom";
 
 import { HeroUIProvider } from "@heroui/system";
+import { ToastProvider } from "@heroui/react";
 
 import { ClientProviders } from "./ClientProviders";
 
@@ -18,6 +19,11 @@ export function Provider({ children }: { children: React.ReactNode }) {
   return (
     <ClientProviders>
       <HeroUIProvider navigate={navigate} useHref={useHref}>
+        <ToastProvider
+          placement="bottom-right"
+          maxVisibleToasts={3}
+          toastOffset={40}
+        />
         {children}
       </HeroUIProvider>
     </ClientProviders>

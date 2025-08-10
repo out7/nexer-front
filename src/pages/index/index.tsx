@@ -16,7 +16,7 @@ const MainPage = () => {
       <div className="flex justify-center my-4">
         <InvoiceButton />
       </div>
-      <Status type="active" />
+      <Status />
       <Gift />
       <Notes />
       <Premium />

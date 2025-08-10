@@ -1,11 +1,12 @@
-const StarsIcon = () => {
+import React from "react";
+
+const StarsIcon = (props: React.SVGProps<SVGSVGElement>) => {
   return (
     <svg
-      width="37"
-      height="36"
       viewBox="0 0 37 36"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      {...props}
     >
       <path
         fillRule="evenodd"

@@ -9,7 +9,7 @@ const Notes = () => {
   const { t } = useTranslation("nav");
 
   return (
-    <div className={styles.container}>
+    <a href="https://t.me/nexervpn" className={styles.container}>
       <div className={styles.leftContent}>
         <NotesIcon />
         <div className={styles.content}>
@@ -18,7 +18,7 @@ const Notes = () => {
         </div>
       </div>
       <ArrowRight />
-    </div>
+    </a>
   );
 };
 

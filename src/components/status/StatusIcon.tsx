@@ -2,7 +2,7 @@ import { AlarmLinear } from "@/icons/Alarm";
 import { CheckCircleLinear } from "@/icons/Check";
 import { ForbiddenCircleLinear } from "@/icons/Forbidden";
 
-type StatusType = "active" | "expired" | "noSubscription";
+type StatusType = "active" | "expired" | "none";
 
 interface StatusIconProps {
   type: StatusType;
@@ -15,7 +15,7 @@ export const StatusIcon = ({ type }: StatusIconProps) => {
         return CheckCircleLinear;
       case "expired":
         return AlarmLinear;
-      case "noSubscription":
+      case "none":
         return ForbiddenCircleLinear;
     }
   })();

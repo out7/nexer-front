@@ -11,14 +11,12 @@ const InvoiceButton = () => {
       }
 
       const response = await api.get("/invoice/tariff/monthly");
-      console.log("Invoice response:", response.data);
 
       if (invoice.open.isAvailable()) {
         invoice.isOpened(); // false
         const promise = invoice.open(response.data.url, "url");
         invoice.isOpened(); // true
         const status = await promise;
-        console.log("status", status);
 
         invoice.isOpened(); // false
       } else {
