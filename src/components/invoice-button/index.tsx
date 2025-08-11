@@ -14,9 +14,8 @@ const InvoiceButton = () => {
 
       if (invoice.open.isAvailable()) {
         invoice.isOpened(); // false
-        const promise = invoice.open(response.data.url, "url");
+        invoice.open(response.data.url, "url");
         invoice.isOpened(); // true
-        const status = await promise;
 
         invoice.isOpened(); // false
       } else {
