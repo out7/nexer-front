@@ -3,7 +3,6 @@ import {
   bindThemeParamsCssVars,
   bindViewportCssVars,
   init as initSDK,
-  isFullscreen,
   miniApp,
   mountBackButton,
   mountViewport,
