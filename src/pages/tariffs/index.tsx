@@ -8,6 +8,7 @@ import { CardOutline } from "@/icons/Tariffs";
 import DevicesIcon from "@/icons/Devices";
 import BoltIcon from "@/icons/Bolt";
 import InfinityIcon from "@/icons/Infinity";
+import GlobeIcon from "@/icons/Globe";
 import { usePlatform } from "@/hooks/usePlatform";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { operations } from "@/lib/api/types/generated";
@@ -404,6 +405,12 @@ export default function TariffsPage() {
       <section className={styles.section}>
         <div className={styles.sectionSubHeader}>Что включено</div>
         <div className={styles.features}>
+          <div className={styles.featureItem}>
+            <div className={styles.featureIconWrap}>
+              <GlobeIcon width={16} height={16} />
+            </div>
+            <div className={styles.featureText}>Серверы в разных странах</div>
+          </div>
           <div className={styles.featureItem}>
             <div className={styles.featureIconWrap}>
               <DevicesIcon width={16} height={16} />
