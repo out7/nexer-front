@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, useCallback } from "react";
+import { useEffect, useMemo, useState, useCallback, useRef } from "react";
 import styles from "./styles.module.scss";
 import { addToast, Spinner } from "@heroui/react";
 import { api } from "@/lib/axios";
@@ -9,6 +9,8 @@ import DevicesIcon from "@/icons/Devices";
 import BoltIcon from "@/icons/Bolt";
 import InfinityIcon from "@/icons/Infinity";
 import { usePlatform } from "@/hooks/usePlatform";
+import { useAuthContext } from "@/contexts/AuthContext";
+import { operations } from "@/lib/api/types/generated";
 
 type PaymentMethod = "stars" | "tribute";
 
@@ -58,6 +60,46 @@ export default function TariffsPage() {
 
   const platform = usePlatform();
   const paddingTop = platform === "pc" ? "70px" : "20px";
+  const { user, refreshUserData } = useAuthContext();
+  const tributePollingAbortRef = useRef(false);
+
+  useEffect(() => {
+    return () => {
+      tributePollingAbortRef.current = true;
+    };
+  }, []);
+
+  function hasSubscriptionChanged(
+    prevSub: {
+      endDate: string | null;
+      status: string | null;
+      updatedAt: string | null;
+    } | null,
+    nextSub: {
+      endDate: string | null;
+      status: string | null;
+      updatedAt: string | null;
+    } | null
+  ): { changed: boolean; extended: boolean } {
+    const prevEnd = prevSub?.endDate ?? null;
+    const nextEnd = nextSub?.endDate ?? null;
+    const prevStatus = prevSub?.status ?? null;
+    const nextStatus = nextSub?.status ?? null;
+    const prevUpdatedAt = prevSub?.updatedAt ?? null;
+    const nextUpdatedAt = nextSub?.updatedAt ?? null;
+
+    const changed =
+      prevEnd !== nextEnd ||
+      prevStatus !== nextStatus ||
+      prevUpdatedAt !== nextUpdatedAt;
+
+    const extended =
+      prevEnd != null &&
+      nextEnd != null &&
+      new Date(nextEnd).getTime() > new Date(prevEnd).getTime();
+
+    return { changed, extended };
+  }
 
   const sortedTariffs = useMemo(() => {
     return (tariffs ?? []).slice().sort((a, b) => a.months - b.months);
@@ -126,6 +168,43 @@ export default function TariffsPage() {
         }
         const url = `https://t.me/tribute/app?startapp=${encodeURIComponent(trbtCode)}`;
         window.open(url, "_blank");
+
+        tributePollingAbortRef.current = false;
+        const previousSubscription = user?.customerSubscription ?? null;
+        const timeoutAt = Date.now() + 5 * 60 * 1000;
+        const intervalMs = 5000;
+
+        while (Date.now() < timeoutAt && !tributePollingAbortRef.current) {
+          try {
+            const { data: freshUser } =
+              await api.get<
+                operations["CustomerController_getProfile"]["responses"]["200"]["content"]["application/json"]
+              >("/customer/me");
+
+            const nextSubscription = freshUser.customerSubscription ?? null;
+            const { changed, extended } = hasSubscriptionChanged(
+              previousSubscription,
+              nextSubscription
+            );
+
+            if (changed) {
+              await refreshUserData();
+              addToast({
+                title: "Успешно",
+                description: extended
+                  ? "Подписка продлена"
+                  : "Подписка оплачена",
+                color: "success",
+                variant: "flat",
+              });
+              break;
+            }
+          } catch (pollErr) {
+            console.error("Tribute polling error", pollErr);
+          }
+
+          await new Promise((r) => setTimeout(r, intervalMs));
+        }
         return;
       }
 
@@ -148,8 +227,51 @@ export default function TariffsPage() {
       );
 
       if (invoice.open.isAvailable()) {
-        const promise = invoice.open(response.data.url, "url");
-        await promise;
+        const previousSubscription = user?.customerSubscription ?? null;
+        const status = await invoice.open(response.data.url, "url");
+
+        if (status === "paid") {
+          try {
+            const { data: freshUser } =
+              await api.get<
+                operations["CustomerController_getProfile"]["responses"]["200"]["content"]["application/json"]
+              >("/customer/me");
+
+            await refreshUserData();
+
+            const nextSubscription = freshUser.customerSubscription ?? null;
+
+            const prevEnd = previousSubscription?.endDate ?? null;
+            const nextEnd = nextSubscription?.endDate ?? null;
+            const prevStatus = previousSubscription?.status ?? null;
+            const nextStatus = nextSubscription?.status ?? null;
+            const prevUpdatedAt = previousSubscription?.updatedAt ?? null;
+            const nextUpdatedAt = nextSubscription?.updatedAt ?? null;
+
+            const changed =
+              prevEnd !== nextEnd ||
+              prevStatus !== nextStatus ||
+              prevUpdatedAt !== nextUpdatedAt;
+
+            if (changed) {
+              const extended =
+                prevEnd != null &&
+                nextEnd != null &&
+                new Date(nextEnd).getTime() > new Date(prevEnd).getTime();
+
+              addToast({
+                title: "Успешно",
+                description: extended
+                  ? "Подписка продлена"
+                  : "Подписка оплачена",
+                color: "success",
+                variant: "flat",
+              });
+            }
+          } catch (verifyErr) {
+            console.error("Verify payment error", verifyErr);
+          }
+        }
       } else {
         addToast({
           title: "Недоступно",

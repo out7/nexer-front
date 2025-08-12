@@ -28,7 +28,46 @@ export async function telegramSDKInit(options: {
   options.eruda &&
     void import("eruda").then(({ default: eruda }) => {
       eruda.init();
-      eruda.position({ x: window.innerWidth - 50, y: 0 });
+
+      const getSafeAreaInsetBottom = (): number => {
+        try {
+          const probe = document.createElement("div");
+          probe.style.position = "fixed";
+          probe.style.bottom = "0";
+          probe.style.left = "0";
+          probe.style.width = "0";
+          probe.style.height = "constant(safe-area-inset-bottom)";
+          probe.style.height = "env(safe-area-inset-bottom)";
+          probe.style.pointerEvents = "none";
+          document.body.appendChild(probe);
+          const value = parseFloat(getComputedStyle(probe).height) || 0;
+          document.body.removeChild(probe);
+          return Number.isFinite(value) ? value : 0;
+        } catch {
+          return 0;
+        }
+      };
+
+      const positionErudaButton = () => {
+        const BUTTON_SIZE = 50;
+        const MARGIN = 16;
+        const EXTRA_BOTTOM_OFFSET = 24;
+        const safeBottom = getSafeAreaInsetBottom();
+
+        const x = Math.max(MARGIN, window.innerWidth - BUTTON_SIZE - MARGIN);
+        const y = Math.max(
+          MARGIN,
+          window.innerHeight - BUTTON_SIZE - (EXTRA_BOTTOM_OFFSET + safeBottom)
+        );
+
+        eruda.position({ x, y });
+      };
+
+      positionErudaButton();
+
+      window.addEventListener("resize", positionErudaButton);
+      window.addEventListener("orientationchange", positionErudaButton);
+      window.visualViewport?.addEventListener("resize", positionErudaButton);
     });
 
   mountBackButton.ifAvailable();
