@@ -1,21 +1,20 @@
-import Header from "@/components/header";
 import Status from "@/components/status";
 import Gift from "@/components/gift";
 import Notes from "@/components/notes";
 import Premium from "@/components/premium";
 import Guide from "@/components/guide";
 import Help from "@/components/help";
-import InvoiceButton from "@/components/invoice-button";
 import styles from "./styles.module.scss";
 import "@/styles/variables.scss";
+import { usePlatform } from "@/hooks/usePlatform";
 
 const MainPage = () => {
+  const platform = usePlatform();
+  const marginTop = platform === "pc" ? "" : "-35px";
+  const paddingTop = platform === "pc" ? "10px" : "";
+
   return (
-    <div className={styles.container}>
-      <Header />
-      <div className="flex justify-center my-4">
-        <InvoiceButton />
-      </div>
+    <div className={styles.container} style={{ marginTop, paddingTop }}>
       <Status />
       <Gift />
       <Notes />

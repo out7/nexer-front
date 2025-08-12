@@ -6,7 +6,7 @@
   "status": {
     "active": "فعال",
     "expired": "منقضی شده",
-    "noSubscription": "بدون اشتراک",
+    "none": "بدون اشتراک",
     "title": "وضعیت اشتراک",
     "daysLeft": "روزهای باقی مانده:",
     "expiresAt": "تاریخ انقضا:",

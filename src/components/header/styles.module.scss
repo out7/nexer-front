@@ -11,10 +11,17 @@
   right: 0;
   background: var(--background-primary);
   z-index: 100;
+}
 
-  &[data-mobile="true"] {
-    top: 45px;
-  }
+.containerMobile {
+  border-bottom: 2px solid var(--border-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 8px 0;
+  background: var(--background-primary);
+  z-index: 100;
 }
 
 .title {

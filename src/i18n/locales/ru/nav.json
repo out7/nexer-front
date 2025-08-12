@@ -6,7 +6,7 @@
   "status": {
     "active": "Активна",
     "expired": "Истекла",
-    "noSubscription": "Нет подписки",
+    "none": "Нет подписки",
     "title": "Статус подписки",
     "daysLeft": "Дней осталось:",
     "expiresAt": "Истечет:",

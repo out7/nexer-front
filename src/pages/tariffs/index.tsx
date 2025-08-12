@@ -8,11 +8,13 @@ import { CardOutline } from "@/icons/Tariffs";
 import DevicesIcon from "@/icons/Devices";
 import BoltIcon from "@/icons/Bolt";
 import InfinityIcon from "@/icons/Infinity";
+import { usePlatform } from "@/hooks/usePlatform";
 
 type PaymentMethod = "stars" | "tribute";
 
 type TariffDto = {
   id: string;
+  code?: string | null;
   months: number;
   discount: number | null;
   perMonth: number;
@@ -53,6 +55,9 @@ export default function TariffsPage() {
   const [selectedTariffId, setSelectedTariffId] = useState<string | null>(null);
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("tribute");
   const [isPaying, setIsPaying] = useState<boolean>(false);
+
+  const platform = usePlatform();
+  const paddingTop = platform === "pc" ? "70px" : "20px";
 
   const sortedTariffs = useMemo(() => {
     return (tariffs ?? []).slice().sort((a, b) => a.months - b.months);
@@ -135,7 +140,9 @@ export default function TariffsPage() {
       }
 
       const code =
-        selectedTariff.invoiceCode ?? deriveInvoiceCode(selectedTariff.months);
+        selectedTariff.code ??
+        selectedTariff.invoiceCode ??
+        deriveInvoiceCode(selectedTariff.months);
       const response = await api.get<{ url: string }>(
         `/invoice/tariff/${code}`
       );
@@ -197,7 +204,7 @@ export default function TariffsPage() {
   }
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} style={{ paddingTop }}>
       {/* Блок выбора тарифа */}
       <section className={styles.section}>
         <div className={styles.sectionHeader}>Выберите тариф</div>

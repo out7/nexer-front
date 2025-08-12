@@ -32,15 +32,21 @@ const Status = () => {
         <div className={styles.item}>
           <p className={styles.itemTitle}>{t("status.daysLeft")}</p>
           <p className={styles.itemText}>
-            {subscription?.endDate ? t("status.day", { count: daysLeft }) : "-"}
+            {status === "none"
+              ? "-"
+              : subscription?.endDate
+                ? t("status.day", { count: daysLeft })
+                : "-"}
           </p>
         </div>
         <div className={styles.item}>
           <p className={styles.itemTitle}>{t("status.expiresAt")}</p>
           <p className={styles.itemText}>
-            {subscription?.endDate
-              ? t("status.date", { date: new Date(subscription.endDate) })
-              : "-"}
+            {status === "none"
+              ? "-"
+              : subscription?.endDate
+                ? t("status.date", { date: new Date(subscription.endDate) })
+                : "-"}
           </p>
         </div>
         <div className={styles.item}>

@@ -4,10 +4,12 @@ import {
   bindViewportCssVars,
   init as initSDK,
   miniApp,
+  mountSwipeBehavior,
   mountBackButton,
   mountViewport,
   onBackButtonClick,
   requestFullscreen,
+  disableVerticalSwipes,
   restoreInitData,
   setDebug,
   showBackButton,
@@ -35,6 +37,14 @@ export async function telegramSDKInit(options: {
   if (miniApp.mountSync.isAvailable()) {
     miniApp.mountSync();
     bindThemeParamsCssVars();
+  }
+
+  // Mount swipe behavior and disable vertical swipes if available
+  if (mountSwipeBehavior?.isAvailable?.()) {
+    mountSwipeBehavior();
+    if (disableVerticalSwipes?.isAvailable?.()) {
+      disableVerticalSwipes();
+    }
   }
 
   mountViewport.isAvailable() &&

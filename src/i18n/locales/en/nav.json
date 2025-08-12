@@ -6,7 +6,7 @@
   "status": {
     "active": "Active",
     "expired": "Expired",
-    "noSubscription": "No subscription",
+    "none": "No subscription",
     "title": "Subscription status",
     "daysLeft": "Days left:",
     "expiresAt": "Expires at:",
