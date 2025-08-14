@@ -9,7 +9,10 @@ export function TelegramSDKInitProvider({ children }: PropsWithChildren) {
 
   useClientOnce(() => {
     const isDebug = import.meta.env.VITE_DEBUG === "true";
-    telegramSDKInit({ debug: isDebug, eruda: true });
+    telegramSDKInit({
+      debug: isDebug,
+      eruda: import.meta.env.VITE_ERUDA,
+    });
   });
 
   return <>{children}</>;

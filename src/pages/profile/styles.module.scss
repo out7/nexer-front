@@ -1,4 +1,209 @@
 .container {
   background: var(--background-primary);
-  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin: 0 20px 20px;
+}
+
+.card {
+  width: 100%;
+  align-self: center;
+  background: var(--background-tertiary);
+  border: 1px solid var(--border-secondary);
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.userRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatarWrap {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+}
+
+.avatarFallback {
+  width: 48px;
+  height: 48px;
+  border-radius: 32px;
+  background: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-black);
+  font-weight: 600;
+}
+
+.userMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.username {
+  color: var(--text-primary);
+  font-size: 16px;
+}
+
+.userId {
+  color: #6d6d6d;
+  font-size: 14px;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cardHeaderLeft {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cardTitle {
+  color: var(--text-primary);
+  font-size: 18px;
+}
+
+.sectionIcon {
+  width: 16px;
+  height: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* decorative icons removed */
+
+.snippetWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.snippet {
+  align-self: stretch;
+
+  & svg {
+    color: #fff;
+  }
+}
+
+.snippetBase {
+  background: #2a2a2a80;
+}
+
+.snippetContent {
+  overflow: hidden;
+}
+
+.snippetPre {
+  overflow-x: auto;
+  white-space: nowrap;
+  color: var(--color-gray);
+  font-size: 14px;
+}
+
+.snippetCopyIcon,
+.snippetCheckIcon {
+  color: var(--color-gray);
+  fill: var(--color-gray);
+}
+
+.snippetBase {
+  cursor: pointer;
+}
+
+.snippetHint {
+  color: #6d6d6d;
+  font-size: 12px;
+  text-align: center;
+  margin: 0 40px;
+}
+
+.historyAction {
+  color: #6d6d6d;
+  background: transparent;
+  border: none;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 14px;
+
+  /* ArrowRight tweaks */
+  & svg {
+    width: 16px;
+    height: 16px;
+  }
+  & svg path {
+    fill: #6d6d6d;
+  }
+}
+
+.activityList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.activityItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.activityIcon {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #6d6d6d;
+  border-radius: 16px;
+}
+
+.activityTexts {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.activityTitle {
+  color: var(--text-primary);
+  font-size: 14px;
+}
+
+.activityDate {
+  color: #6d6d6d;
+  font-size: 12px;
+}
+
+.activityEmpty {
+  color: #6d6d6d;
+  font-size: 14px;
+}
+
+.status {
+  & > div:first-child {
+    margin: 0;
+  }
 }

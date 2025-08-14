@@ -19,12 +19,24 @@ const Status = () => {
     return Math.max(0, Math.ceil(diff / (1000 * 60 * 60 * 24)));
   }, [subscription?.endDate]);
 
+  const iconColor = useMemo(() => {
+    switch (status) {
+      case "active":
+        return "#17C964";
+      case "expired":
+        return "#C91717";
+      case "none":
+      default:
+        return "#B2B2B2";
+    }
+  }, [status]);
+
   return (
     <div className={styles.container}>
       <div className={styles.status}>
         <p className={styles.statusTitle}>{t("status.title")}</p>
         <div className={styles.statusContent}>
-          <StatusIcon type={status} />
+          <StatusIcon type={status} color={iconColor} />
           <p className={styles.statusText}>{t(`status.${status}`)}</p>
         </div>
       </div>

@@ -26,3 +26,4 @@ const Globe = (props: React.SVGProps<SVGSVGElement>) => {
 };
 
 export default Globe;
+

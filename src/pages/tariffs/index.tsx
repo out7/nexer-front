@@ -342,7 +342,7 @@ export default function TariffsPage() {
               String(t.months) === selectedTariffId;
             return (
               <div
-                key={t.id}
+                key={String(t.id) + String(t.months)}
                 role="radio"
                 tabIndex={0}
                 aria-checked={isSelected}
