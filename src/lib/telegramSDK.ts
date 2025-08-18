@@ -14,6 +14,7 @@ import {
   setDebug,
   showBackButton,
 } from "@telegram-apps/sdk-react";
+import { hideBackButton, offBackButtonClick } from "@telegram-apps/sdk";
 
 import { isMobileDevice } from "./tools/isMobile";
 
@@ -98,7 +99,14 @@ export async function telegramSDKInit(options: {
 
 export const handleBackButton = (callback: () => void) => {
   showBackButton();
-  onBackButtonClick(() => {
-    callback();
-  });
+  const handler = () => callback();
+  onBackButtonClick(handler);
+  return () => {
+    try {
+      offBackButtonClick(handler);
+    } catch {}
+    try {
+      hideBackButton();
+    } catch {}
+  };
 };
