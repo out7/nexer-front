@@ -15,7 +15,12 @@
     "days": "{{count}} days",
     "day_one": "{{count}} day",
     "day_other": "{{count}} days",
-    "date": "{{date, MMMM DD, YYYY}}"
+    "date": "{{date, MMMM DD, YYYY}}",
+    "timeLeft": {
+      "days": "{{days}} day {{hours}}h",
+      "hours": "{{hours}}h {{minutes}}m",
+      "minutes": "{{minutes}}m"
+    }
   },
   "gift": {
     "title": "YOU HAVE",

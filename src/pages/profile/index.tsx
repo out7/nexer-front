@@ -18,6 +18,7 @@ import Card from "@/icons/Card";
 import Refresh from "@/icons/Refresh";
 import Close from "@/icons/Close";
 import Watch from "@/icons/Watch";
+import { ActivitySkeleton } from "@/components/skeleton";
 
 type ActivityItem = {
   id: string;
@@ -73,10 +74,12 @@ const ProfilePage = () => {
     | undefined;
 
   const [activity, setActivity] = useState<ActivityItem[]>([]);
+  const [isActivityLoading, setIsActivityLoading] = useState(true);
   useEffect(() => {
     let cancelled = false;
     const load = async () => {
       try {
+        setIsActivityLoading(true);
         const { data } = await api.get<ActivityItem[]>("/activity");
         const items = [...data].sort(
           (a, b) =>
@@ -85,6 +88,8 @@ const ProfilePage = () => {
         if (!cancelled) setActivity(items.slice(0, 5));
       } catch {
         if (!cancelled) setActivity([]);
+      } finally {
+        if (!cancelled) setIsActivityLoading(false);
       }
     };
     load();
@@ -109,12 +114,27 @@ const ProfilePage = () => {
       case "bonus":
       case "bonus_awarded":
       case "referral_bonus_added":
+      case "bonus_claimed":
         return period ? `Начислен бонус +${period} дн.` : "Начислен бонус";
       case "trial":
       case "trial_activated":
         return "Активирован пробный период";
+      case "referral_invited":
+        return "Приглашён реферал";
+      case "referral_registered":
+        return "Реферал зарегистрировался";
+      case "referral_purchased":
+        return "Реферал совершил покупку";
+      case "gift_activated":
+        return "Активирован подарок";
+      case "subscription_cancelled":
+        return "Подписка отменена";
+      case "payment_failed":
+        return "Ошибка оплаты";
+      case "payment_successful":
+        return "Оплата прошла успешно";
       default:
-        return item.type;
+        return "Действие выполнено";
     }
   };
 
@@ -129,10 +149,23 @@ const ProfilePage = () => {
       case "bonus":
       case "bonus_awarded":
       case "referral_bonus_added":
+      case "bonus_claimed":
         return <GiftIcon />;
       case "trial":
       case "trial_activated":
         return <Watch />;
+      case "referral_invited":
+      case "referral_registered":
+      case "referral_purchased":
+        return <CheckIcon color="#fff" />;
+      case "gift_activated":
+        return <GiftIcon />;
+      case "subscription_cancelled":
+        return <Close />;
+      case "payment_failed":
+        return <Close />;
+      case "payment_successful":
+        return <CheckIcon color="#fff" />;
       default:
         return <CheckIcon color="#fff" />;
     }
@@ -209,22 +242,26 @@ const ProfilePage = () => {
           </button>
         </div>
         <div className={styles.activityList}>
-          {activity.map((item) => (
-            <div key={item.id} className={styles.activityItem}>
-              <div className={styles.activityIcon}>
-                {renderActivityIcon(item)}
-              </div>
-              <div className={styles.activityTexts}>
-                <div className={styles.activityTitle}>
-                  {renderActivityTitle(item)}
+          {isActivityLoading ? (
+            <ActivitySkeleton />
+          ) : (
+            activity.map((item) => (
+              <div key={Math.random()} className={styles.activityItem}>
+                <div className={styles.activityIcon}>
+                  {renderActivityIcon(item)}
                 </div>
-                <div className={styles.activityDate}>
-                  {dayjs(item.createdAt).format("DD.MM.YYYY")}
+                <div className={styles.activityTexts}>
+                  <div className={styles.activityTitle}>
+                    {renderActivityTitle(item)}
+                  </div>
+                  <div className={styles.activityDate}>
+                    {dayjs(item.createdAt).format("DD.MM.YYYY")}
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
-          {activity.length === 0 ? (
+            ))
+          )}
+          {!isActivityLoading && activity.length === 0 ? (
             <div className={styles.activityEmpty}>Пока нет активности</div>
           ) : null}
         </div>

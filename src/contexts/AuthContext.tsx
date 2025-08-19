@@ -47,9 +47,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       setUser(response.data);
     } catch (err: any) {
       console.error("Error fetching user profile:", err);
-      if (err.response?.status !== 401) {
-        setError("Ошибка при получении данных пользователя");
+      if (err.response?.status === 401) {
         logout();
+      } else {
+        setError("Ошибка при получении данных пользователя");
       }
       throw err;
     }
@@ -57,14 +58,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const authenticate = async () => {
     try {
-      const storedToken = localStorage.getItem("accessToken");
-
-      if (storedToken) {
-        await refreshUserData();
-        setIsLoading(false);
-        return;
-      }
-
       const initDataRaw = initData.raw();
       if (!initDataRaw) {
         setError("Вы не авторизованы в Telegram");

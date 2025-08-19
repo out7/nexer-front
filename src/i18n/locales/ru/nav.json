@@ -16,7 +16,12 @@
     "day_one": "{{count}} день",
     "day_few": "{{count}} дня",
     "day_many": "{{count}} дней",
-    "date": "{{date, DD MMMM YYYY}}"
+    "date": "{{date, DD MMMM YYYY}}",
+    "timeLeft": {
+      "days": "{{days}} дней {{hours}}ч",
+      "hours": "{{hours}}ч {{minutes}}м",
+      "minutes": "{{minutes}}м"
+    }
   },
   "gift": {
     "title": "ВАМ",

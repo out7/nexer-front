@@ -11,13 +11,40 @@ const Status = () => {
   const subscription = user?.customerSubscription;
   const status = subscription?.status || "none";
 
-  const daysLeft = useMemo(() => {
-    if (!subscription?.endDate) return 0;
+  const timeLeft = useMemo(() => {
+    if (!subscription?.endDate) return null;
     const end = new Date(subscription.endDate);
     const now = new Date();
     const diff = end.getTime() - now.getTime();
-    return Math.max(0, Math.ceil(diff / (1000 * 60 * 60 * 24)));
+
+    if (diff <= 0) return null;
+
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+
+    return { days, hours, minutes, totalDiff: diff };
   }, [subscription?.endDate]);
+
+  const formattedTimeLeft = useMemo(() => {
+    if (!timeLeft) return null;
+
+    if (timeLeft.days >= 2) {
+      return t("status.days", { count: timeLeft.days });
+    } else if (timeLeft.days === 1) {
+      return t("status.timeLeft.days", {
+        days: timeLeft.days,
+        hours: timeLeft.hours,
+      });
+    } else if (timeLeft.hours >= 1) {
+      return t("status.timeLeft.hours", {
+        hours: timeLeft.hours,
+        minutes: timeLeft.minutes,
+      });
+    } else {
+      return t("status.timeLeft.minutes", { minutes: timeLeft.minutes });
+    }
+  }, [timeLeft, t]);
 
   const iconColor = useMemo(() => {
     switch (status) {
@@ -44,11 +71,7 @@ const Status = () => {
         <div className={styles.item}>
           <p className={styles.itemTitle}>{t("status.daysLeft")}</p>
           <p className={styles.itemText}>
-            {status === "none"
-              ? "-"
-              : subscription?.endDate
-                ? t("status.day", { count: daysLeft })
-                : "-"}
+            {status === "none" ? "-" : formattedTimeLeft || "-"}
           </p>
         </div>
         <div className={styles.item}>
