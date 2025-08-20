@@ -3,6 +3,12 @@ import styles from "./styles.module.scss";
 import { StatusIcon } from "./StatusIcon";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { useMemo } from "react";
+import {
+  differenceInDays,
+  differenceInHours,
+  differenceInMinutes,
+} from "date-fns";
+import { ru } from "date-fns/locale";
 
 const Status = () => {
   const { t } = useTranslation("nav");
@@ -19,32 +25,50 @@ const Status = () => {
 
     if (diff <= 0) return null;
 
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const days = differenceInDays(end, now);
+    const hours = differenceInHours(end, now) % 24;
+    const minutes = differenceInMinutes(end, now) % 60;
 
     return { days, hours, minutes, totalDiff: diff };
   }, [subscription?.endDate]);
+
+  const getDayEnding = (days: number) => {
+    if (days >= 11 && days <= 19) return "дней";
+    const lastDigit = days % 10;
+    if (lastDigit === 1) return "день";
+    if (lastDigit >= 2 && lastDigit <= 4) return "дня";
+    return "дней";
+  };
+
+  const getHourEnding = (hours: number) => {
+    if (hours >= 11 && hours <= 19) return "часов";
+    const lastDigit = hours % 10;
+    if (lastDigit === 1) return "час";
+    if (lastDigit >= 2 && lastDigit <= 4) return "часа";
+    return "часов";
+  };
+
+  const getMinuteEnding = (minutes: number) => {
+    if (minutes >= 11 && minutes <= 19) return "минут";
+    const lastDigit = minutes % 10;
+    if (lastDigit === 1) return "минута";
+    if (lastDigit >= 2 && lastDigit <= 4) return "минуты";
+    return "минут";
+  };
 
   const formattedTimeLeft = useMemo(() => {
     if (!timeLeft) return null;
 
     if (timeLeft.days >= 2) {
-      return t("status.days", { count: timeLeft.days });
+      return `${timeLeft.days} ${getDayEnding(timeLeft.days)}`;
     } else if (timeLeft.days === 1) {
-      return t("status.timeLeft.days", {
-        days: timeLeft.days,
-        hours: timeLeft.hours,
-      });
+      return `1 день ${timeLeft.hours} ${getHourEnding(timeLeft.hours)}`;
     } else if (timeLeft.hours >= 1) {
-      return t("status.timeLeft.hours", {
-        hours: timeLeft.hours,
-        minutes: timeLeft.minutes,
-      });
+      return `${timeLeft.hours} ${getHourEnding(timeLeft.hours)} ${timeLeft.minutes} ${getMinuteEnding(timeLeft.minutes)}`;
     } else {
-      return t("status.timeLeft.minutes", { minutes: timeLeft.minutes });
+      return `${timeLeft.minutes} ${getMinuteEnding(timeLeft.minutes)}`;
     }
-  }, [timeLeft, t]);
+  }, [timeLeft]);
 
   const iconColor = useMemo(() => {
     switch (status) {

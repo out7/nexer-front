@@ -47,11 +47,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       setUser(response.data);
     } catch (err: any) {
       console.error("Error fetching user profile:", err);
-      if (err.response?.status === 401) {
-        logout();
-      } else {
-        setError("Ошибка при получении данных пользователя");
-      }
+      setError("Ошибка при получении данных пользователя");
       throw err;
     }
   };

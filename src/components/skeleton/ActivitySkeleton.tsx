@@ -30,3 +30,4 @@ export const ActivitySkeleton: React.FC<ActivitySkeletonProps> = ({
     </>
   );
 };
+
