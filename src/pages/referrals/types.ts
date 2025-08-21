@@ -1,21 +1,12 @@
+import { components } from "../../lib/api/types/generated";
+
 export enum ReferralStatus {
   inactive = "inactive",
   trial = "trial",
   purchased = "purchased",
 }
 
-export interface Referral {
-  id: string;
-  referrerId: string;
-  referredCustomerId: string;
-  status: ReferralStatus;
-  createdAt: string;
-  updatedAt: string;
-  referredCustomer: {
-    telegramId: number;
-    username?: string;
-  };
-}
+export type Referral = components["schemas"]["ReferralDto"];
 
 export interface ReferralStats {
   total: number;

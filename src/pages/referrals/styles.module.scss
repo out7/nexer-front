@@ -238,20 +238,29 @@
   display: flex;
   align-items: center;
   gap: 4px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: background-color 0.2s ease;
+}
+
+.viewAll:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.viewAll span {
   color: #6d6d6d;
-  font-family: Inter, sans-serif;
-  font-weight: 400;
   font-size: 14px;
-  line-height: 1.143em;
+  font-weight: 400;
+}
 
-  & svg {
-    width: 16px;
-    height: 16px;
-  }
+.viewAll svg {
+  width: 16px;
+  height: 16px;
+}
 
-  & svg path {
-    fill: #6d6d6d;
-  }
+.viewAll svg path {
+  fill: #6d6d6d;
 }
 
 .referralsList {
@@ -317,14 +326,21 @@
 .statusBadge {
   display: flex;
   align-items: center;
-  gap: 4px;
-  padding: 4px 6px;
+  gap: 6px;
+  padding: 4px 8px;
   border-radius: 12px;
   font-family: Inter, sans-serif;
   font-weight: 400;
   font-size: 12px;
   line-height: 1.167em;
   color: #f4f4f5;
+  min-width: fit-content;
+}
+
+.statusBadge svg {
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
 }
 
 .statusTrial {
@@ -353,4 +369,36 @@
   text-align: left;
   line-height: 1.5;
   width: 100%;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+  color: #6d6d6d;
+  font-family: Inter, sans-serif;
+  font-size: 14px;
+}
+
+.error {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+  color: #ef4444;
+  font-family: Inter, sans-serif;
+  font-size: 14px;
+  text-align: center;
+}
+
+.empty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+  color: #6d6d6d;
+  font-family: Inter, sans-serif;
+  font-size: 14px;
+  text-align: center;
 }

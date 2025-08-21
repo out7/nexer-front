@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../contexts/AuthContext";
-import { mockReferralData } from "./mockData";
-import { ReferralStatus } from "./types";
+import { getReferrals } from "../../lib/api/referrals";
+import { ReferralStatus, Referral } from "./types";
 import styles from "./styles.module.scss";
 import Link from "../../icons/Link";
-import Share from "../../icons/Share";
 import Gift from "../../icons/Gift";
 import { CheckCircleLinear as Check } from "../../icons/Check";
 import Chart from "../../icons/Chart";
@@ -13,13 +13,20 @@ import ArrowRight from "../../icons/ArrowRight";
 import Info from "../../icons/Info";
 import { Profile as User } from "../../icons/Profile";
 import { usePlatform } from "@/hooks/usePlatform";
-import Copy from "../../icons/Copy";
 import CopyRef from "@/icons/CopyRef";
 import ShareRef from "@/icons/ShareRef";
+import TrialIcon from "../../icons/Trial";
+import InactiveIcon from "../../icons/Inactive";
+import PurchasedIcon from "../../icons/Purchased";
 
 const ReferralsPage = () => {
   const { user } = useAuthContext();
+  const navigate = useNavigate();
   const [copied, setCopied] = useState(false);
+  const [referrals, setReferrals] = useState<Referral[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
   const referralLink = `https://t.me/nexervpn_bot?start=ref_${user?.telegramId}`;
   const bonusDays = user?.unclaimedBonusDays || 0;
 
@@ -28,6 +35,39 @@ const ReferralsPage = () => {
   console.log("user", user);
 
   const paddingTop = platform === "pc" ? "70px" : "20px";
+
+  useEffect(() => {
+    const fetchReferrals = async () => {
+      try {
+        setIsLoading(true);
+        console.log("Fetching referrals...");
+        const data = await getReferrals();
+        console.log("Referrals data received:", data);
+        setReferrals(data);
+        setError(null);
+      } catch (err) {
+        console.error("Error fetching referrals:", err);
+        setError("Ошибка при загрузке рефералов");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    if (user && localStorage.getItem("accessToken")) {
+      fetchReferrals();
+    } else {
+      setIsLoading(false);
+    }
+  }, [user]);
+
+  const stats = {
+    total: referrals.length,
+    purchased: referrals.filter((r) => r.status === ReferralStatus.purchased)
+      .length,
+    trial: referrals.filter((r) => r.status === ReferralStatus.trial).length,
+    inactive: referrals.filter((r) => r.status === ReferralStatus.inactive)
+      .length,
+  };
 
   const handleCopy = async () => {
     try {
@@ -103,6 +143,19 @@ const ReferralsPage = () => {
         return styles.statusInactive;
       default:
         return styles.statusInactive;
+    }
+  };
+
+  const getStatusIcon = (status: ReferralStatus) => {
+    switch (status) {
+      case ReferralStatus.trial:
+        return <TrialIcon />;
+      case ReferralStatus.purchased:
+        return <PurchasedIcon />;
+      case ReferralStatus.inactive:
+        return <InactiveIcon />;
+      default:
+        return <InactiveIcon />;
     }
   };
 
@@ -200,21 +253,15 @@ const ReferralsPage = () => {
 
         <div className={styles.statsContainer}>
           <div className={styles.statItem}>
-            <span className={styles.statNumber}>
-              {mockReferralData.stats.total}
-            </span>
+            <span className={styles.statNumber}>{stats.total}</span>
             <span className={styles.statLabel}>Всего</span>
           </div>
           <div className={styles.statItem}>
-            <span className={styles.statNumber}>
-              {mockReferralData.stats.purchased}
-            </span>
+            <span className={styles.statNumber}>{stats.purchased}</span>
             <span className={styles.statLabel}>Купили</span>
           </div>
           <div className={styles.statItem}>
-            <span className={styles.statNumber}>
-              {mockReferralData.stats.trial}
-            </span>
+            <span className={styles.statNumber}>{stats.trial}</span>
             <span className={styles.statLabel}>Пробуют</span>
           </div>
         </div>
@@ -226,36 +273,56 @@ const ReferralsPage = () => {
             <History />
           </div>
           <span className={styles.cardTitle}>Рефералы</span>
-          <div className={styles.viewAll}>
+          <div
+            className={styles.viewAll}
+            onClick={() => navigate("/referrals/all")}
+          >
             <span>Все</span>
             <ArrowRight />
           </div>
         </div>
 
-        <div className={styles.referralsList}>
-          {mockReferralData.referrals.map((referral) => (
-            <div key={referral.id} className={styles.referralItem}>
-              <div className={styles.referralInfo}>
-                <div className={styles.avatar}>
-                  <User />
+        {isLoading ? (
+          <div className={styles.loading}>
+            <span>Загрузка рефералов...</span>
+          </div>
+        ) : error ? (
+          <div className={styles.error}>
+            <span>{error}</span>
+          </div>
+        ) : referrals.length === 0 ? (
+          <div className={styles.empty}>
+            <span>У вас пока нет рефералов</span>
+          </div>
+        ) : (
+          <div className={styles.referralsList}>
+            {referrals.map((referral) => (
+              <div key={referral.id} className={styles.referralItem}>
+                <div className={styles.referralInfo}>
+                  <div className={styles.avatar}>
+                    <User />
+                  </div>
+                  <div className={styles.referralDetails}>
+                    <span className={styles.telegramId}>
+                      {maskTelegramId(Number(referral.referred.telegramId))}
+                    </span>
+                    <span className={styles.date}>
+                      {formatDate(referral.createdAt)}
+                    </span>
+                  </div>
                 </div>
-                <div className={styles.referralDetails}>
-                  <span className={styles.telegramId}>
-                    {maskTelegramId(referral.referredCustomer.telegramId)}
-                  </span>
-                  <span className={styles.date}>
-                    {formatDate(referral.createdAt)}
+                <div
+                  className={`${styles.statusBadge} ${getStatusColor(referral.status as ReferralStatus)}`}
+                >
+                  {getStatusIcon(referral.status as ReferralStatus)}
+                  <span>
+                    {getStatusText(referral.status as ReferralStatus)}
                   </span>
                 </div>
               </div>
-              <div
-                className={`${styles.statusBadge} ${getStatusColor(referral.status)}`}
-              >
-                <span>{getStatusText(referral.status)}</span>
-              </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
 
       <div className={styles.card}>

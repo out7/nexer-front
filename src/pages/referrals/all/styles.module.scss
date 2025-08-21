@@ -1,0 +1,138 @@
+.container {
+  background: #171717;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow-y: scroll;
+  overflow-x: inherit;
+  min-height: 100vh;
+}
+
+.header {
+  width: 100%;
+  align-self: center;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.title {
+  color: #f4f4f5;
+  font-size: 18px;
+  font-weight: 400;
+  margin: 0;
+}
+
+.list {
+  width: 100%;
+  align-self: center;
+  padding: 0 20px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #18181b;
+  border: 1px solid #27272a;
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  border-radius: 16px;
+  color: #000000;
+  flex-shrink: 0;
+}
+
+.referralInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.telegramId {
+  color: #f4f4f5;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.date {
+  color: #6d6d6d;
+  font-size: 12px;
+}
+
+.statusBadge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-family: Inter, sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1.167em;
+  color: #f4f4f5;
+  min-width: fit-content;
+}
+
+.statusBadge svg {
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
+}
+
+.statusTrial {
+  background: #c4841d;
+}
+
+.statusPurchased {
+  background: #0e793c;
+}
+
+.statusInactive {
+  background: #6d6d6d;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+  color: #6d6d6d;
+  font-family: Inter, sans-serif;
+  font-size: 14px;
+}
+
+.error {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+  color: #ef4444;
+  font-family: Inter, sans-serif;
+  font-size: 14px;
+  text-align: center;
+}
+
+.empty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+  color: #6d6d6d;
+  font-family: Inter, sans-serif;
+  font-size: 14px;
+  text-align: center;
+}
