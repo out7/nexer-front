@@ -23,13 +23,10 @@ const AllReferralsPage = () => {
     const fetchReferrals = async () => {
       try {
         setIsLoading(true);
-        console.log("Fetching all referrals...");
         const data = await getReferrals();
-        console.log("All referrals data received:", data);
         setReferrals(data);
         setError(null);
       } catch (err) {
-        console.error("Error fetching referrals:", err);
         setError("Ошибка при загрузке рефералов");
       } finally {
         setIsLoading(false);
@@ -116,7 +113,7 @@ const AllReferralsPage = () => {
           </div>
         ) : (
           referrals.map((referral) => (
-            <div key={referral.id} className={styles.item}>
+            <div key={Math.random()} className={styles.item}>
               <div className={styles.avatar}>
                 <User />
               </div>

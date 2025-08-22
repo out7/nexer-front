@@ -9,6 +9,7 @@
   width: 100%;
   max-width: 100%;
   margin: 0 auto;
+  padding-bottom: 20px;
 }
 
 .title {
@@ -183,6 +184,8 @@
   cursor: pointer;
   box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25);
   transition: background-color 0.2s ease;
+  min-height: 40px;
+  height: 40px;
 
   &:hover:not(:disabled) {
     background: #0f3db8;
@@ -196,6 +199,15 @@
     background: #6d6d6d;
     cursor: not-allowed;
     opacity: 0.6;
+  }
+
+  &.loading {
+    background: #124ee4;
+    opacity: 0.8;
+    min-height: 40px;
+    max-height: 40px;
+    height: 40px;
+    padding: 0;
   }
 }
 

@@ -54,6 +54,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const authenticate = async () => {
     try {
+      setIsLoading(true);
+      setError(null);
+
       const initDataRaw = initData.raw();
       if (!initDataRaw) {
         setError("Вы не авторизованы в Telegram");

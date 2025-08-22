@@ -8,7 +8,6 @@ import { useNavigate } from "react-router-dom";
 import { api } from "@/lib/axios";
 import GiftIcon from "@/icons/Gift";
 import { CheckCircleLinear as CheckIcon } from "@/icons/Check";
-import { AlarmLinear as AlarmIcon } from "@/icons/Alarm";
 import { usePlatform } from "@/hooks/usePlatform";
 import LinkIcon from "@/icons/Link";
 import HistoryIcon from "@/icons/History";

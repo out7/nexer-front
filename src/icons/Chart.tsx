@@ -4,7 +4,7 @@ interface ChartProps {
   className?: string;
 }
 
-const Chart: React.FC<ChartProps> = ({ className }) => (
+const Chart: React.FC<ChartProps> = () => (
   <svg
     width="16"
     height="16"

@@ -8,7 +8,6 @@ import {
   differenceInHours,
   differenceInMinutes,
 } from "date-fns";
-import { ru } from "date-fns/locale";
 
 const Status = () => {
   const { t } = useTranslation("nav");

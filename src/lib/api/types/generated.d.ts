@@ -80,6 +80,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1.0/subscriptions/bonus/claim": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Claim unclaimed bonus days
+         * @description Converts all unclaimed bonus days into subscription time for the authenticated user and returns the updated customer.
+         */
+        post: operations["SubscriptionController_claimMyBonus"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1.0/activity": {
         parameters: {
             query?: never;
@@ -402,10 +422,10 @@ export interface components {
             perMonth: number;
         };
         ReferredDto: {
-            /** @description Telegram ID of the referred user (stringified BigInt) */
+            /** @description Masked Telegram ID of the referred user (last 4 digits only) */
             telegramId: string;
-            /** @description Telegram username of the referred user */
-            username: string | null;
+            /** @description Telegram username (optional) */
+            username?: string | null;
         };
         ReferralDto: {
             /** @description Referral record ID (UUID) */
@@ -590,6 +610,46 @@ export interface operations {
             };
             /** @description Unauthorized */
             401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    SubscriptionController_claimMyBonus: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CustomerResponseDto"];
+                };
+            };
+            /** @description No unclaimed bonus days */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Customer not found */
+            404: {
                 headers: {
                     [name: string]: unknown;
                 };

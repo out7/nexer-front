@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../contexts/AuthContext";
 import { getReferrals } from "../../lib/api/referrals";
@@ -18,21 +18,25 @@ import ShareRef from "@/icons/ShareRef";
 import TrialIcon from "../../icons/Trial";
 import InactiveIcon from "../../icons/Inactive";
 import PurchasedIcon from "../../icons/Purchased";
+import { fireConfetti } from "@/lib/animations/confetti";
+import { api } from "@/lib/axios";
+import { operations } from "@/lib/api/types/generated";
+import { addToast } from "@heroui/react";
 
 const ReferralsPage = () => {
-  const { user } = useAuthContext();
+  const { user, refreshUserData } = useAuthContext();
   const navigate = useNavigate();
   const [copied, setCopied] = useState(false);
   const [referrals, setReferrals] = useState<Referral[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isClaimingBonus, setIsClaimingBonus] = useState(false);
+  const claimButtonRef = useRef<HTMLButtonElement>(null);
 
   const referralLink = `https://t.me/nexervpn_bot?start=ref_${user?.telegramId}`;
   const bonusDays = user?.unclaimedBonusDays || 0;
 
   const platform = usePlatform();
-
-  console.log("user", user);
 
   const paddingTop = platform === "pc" ? "70px" : "20px";
 
@@ -40,13 +44,10 @@ const ReferralsPage = () => {
     const fetchReferrals = async () => {
       try {
         setIsLoading(true);
-        console.log("Fetching referrals...");
         const data = await getReferrals();
-        console.log("Referrals data received:", data);
         setReferrals(data);
         setError(null);
       } catch (err) {
-        console.error("Error fetching referrals:", err);
         setError("Ошибка при загрузке рефералов");
       } finally {
         setIsLoading(false);
@@ -129,8 +130,44 @@ const ReferralsPage = () => {
     }
   };
 
-  const handleClaimBonus = () => {
-    console.log("Claiming bonus days...");
+  const handleClaimBonus = async () => {
+    if (!claimButtonRef.current || isClaimingBonus) return;
+
+    try {
+      setIsClaimingBonus(true);
+
+      await api.post<
+        operations["SubscriptionController_claimMyBonus"]["responses"]["200"]["content"]["application/json"]
+      >("/subscriptions/bonus/claim");
+
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      await refreshUserData();
+
+      addToast({
+        title: "Успешно!",
+        description: "Бонусные дни успешно получены",
+        color: "success",
+        variant: "flat",
+      });
+
+      fireConfetti({ element: claimButtonRef.current });
+    } catch (err: any) {
+      console.error("Error claiming bonus days:", err);
+
+      const errorMessage =
+        err.response?.status === 400
+          ? "Нет доступных бонусных дней для получения"
+          : "Ошибка при получении бонусных дней";
+
+      addToast({
+        title: "Ошибка!",
+        description: errorMessage,
+        color: "danger",
+        variant: "flat",
+      });
+    } finally {
+      setIsClaimingBonus(false);
+    }
   };
 
   const getStatusColor = (status: ReferralStatus) => {
@@ -234,9 +271,10 @@ const ReferralsPage = () => {
         </div>
 
         <button
-          className={`${styles.claimButton} ${bonusDays === 0 ? styles.disabled : ""}`}
+          ref={claimButtonRef}
+          className={`${styles.claimButton} ${bonusDays === 0 ? styles.disabled : ""} ${isClaimingBonus ? styles.loading : ""}`}
           onClick={handleClaimBonus}
-          disabled={bonusDays === 0}
+          disabled={bonusDays === 0 || isClaimingBonus}
         >
           <Check />
           <span>Забрать</span>
@@ -295,33 +333,35 @@ const ReferralsPage = () => {
             <span>У вас пока нет рефералов</span>
           </div>
         ) : (
-          <div className={styles.referralsList}>
-            {referrals.map((referral) => (
-              <div key={referral.id} className={styles.referralItem}>
-                <div className={styles.referralInfo}>
-                  <div className={styles.avatar}>
-                    <User />
+          <>
+            <div className={styles.referralsList}>
+              {referrals.slice(0, 3).map((referral) => (
+                <div key={Math.random()} className={styles.referralItem}>
+                  <div className={styles.referralInfo}>
+                    <div className={styles.avatar}>
+                      <User />
+                    </div>
+                    <div className={styles.referralDetails}>
+                      <span className={styles.telegramId}>
+                        {maskTelegramId(Number(referral.referred.telegramId))}
+                      </span>
+                      <span className={styles.date}>
+                        {formatDate(referral.createdAt)}
+                      </span>
+                    </div>
                   </div>
-                  <div className={styles.referralDetails}>
-                    <span className={styles.telegramId}>
-                      {maskTelegramId(Number(referral.referred.telegramId))}
-                    </span>
-                    <span className={styles.date}>
-                      {formatDate(referral.createdAt)}
+                  <div
+                    className={`${styles.statusBadge} ${getStatusColor(referral.status as ReferralStatus)}`}
+                  >
+                    {getStatusIcon(referral.status as ReferralStatus)}
+                    <span>
+                      {getStatusText(referral.status as ReferralStatus)}
                     </span>
                   </div>
                 </div>
-                <div
-                  className={`${styles.statusBadge} ${getStatusColor(referral.status as ReferralStatus)}`}
-                >
-                  {getStatusIcon(referral.status as ReferralStatus)}
-                  <span>
-                    {getStatusText(referral.status as ReferralStatus)}
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          </>
         )}
       </div>
 
