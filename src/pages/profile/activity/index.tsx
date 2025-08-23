@@ -58,7 +58,6 @@ const ActivityPage = () => {
     const daysAdded = meta.daysAdded ? Number(meta.daysAdded) : undefined;
     const days = meta.days ? Number(meta.days) : undefined;
     const grantedDays = meta.grantedDays ? Number(meta.grantedDays) : undefined;
-    const expiredAt = meta.expiredAt ? new Date(meta.expiredAt) : undefined;
 
     switch (item.type) {
       case "purchased":
