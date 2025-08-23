@@ -8,4 +8,5 @@ do
     # Вставить во все .js и .css
     find /usr/share/nginx/html -type f \( -name '*.js' -o -name '*.css' \) -exec sed -i "s|${key}|${value}|g" '{}' +
 done
-exec nginx -g 'daemon off;'
+echo "Injecting completed."
+exec "$@"
