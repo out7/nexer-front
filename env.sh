@@ -6,7 +6,7 @@ do
     value=$(echo $i | cut -d '=' -f 2-)
     echo "Replacing $key -> $value"
     # Вставить во все .js и .css
-    find /usr/share/nginx/html -type f \( -name '*.js' -o -name '*.css' \) -exec sed -i "s|${key}|${value}|g" '{}' +
+    find /usr/share/angie/html -type f \( -name '*.js' -o -name '*.css' \) -exec sed -i "s|${key}|${value}|g" '{}' +
 done
 echo "Injecting completed."
 exec "$@"
