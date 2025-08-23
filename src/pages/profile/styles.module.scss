@@ -91,8 +91,6 @@
   justify-content: center;
 }
 
-/* decorative icons removed */
-
 .snippetWrap {
   display: flex;
   flex-direction: column;
@@ -140,16 +138,12 @@
 }
 
 .historyAction {
-  color: #6d6d6d;
-  background: transparent;
-  border: none;
-  padding: 0;
-  display: inline-flex;
-  align-items: center;
   gap: 4px;
-  font-size: 14px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: background-color 0.2s ease;
 
-  /* ArrowRight tweaks */
   & svg {
     width: 16px;
     height: 16px;
@@ -157,6 +151,19 @@
   & svg path {
     fill: #6d6d6d;
   }
+}
+
+.historyAction:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+.historyAction {
+  color: #6d6d6d;
+  background: transparent;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 14px;
 }
 
 .activityList {
@@ -200,6 +207,11 @@
 .activityEmpty {
   color: #6d6d6d;
   font-size: 14px;
+  padding: 40px 20px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .status {

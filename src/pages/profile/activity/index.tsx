@@ -12,14 +12,7 @@ import Close from "@/icons/Close";
 import Watch from "@/icons/Watch";
 import { handleBackButton } from "@/lib/telegramSDK";
 import { ActivitySkeleton } from "@/components/skeleton";
-
-type ActivityItem = {
-  id: string;
-  customerId: string;
-  type: string;
-  meta?: Record<string, any> | null;
-  createdAt: string;
-};
+import { ActivityItem } from "./types";
 
 const ActivityPage = () => {
   const navigate = useNavigate();
@@ -62,6 +55,11 @@ const ActivityPage = () => {
   const renderActivityTitle = (item: ActivityItem): string => {
     const meta = item.meta || {};
     const period = meta.period ? Number(meta.period) : undefined;
+    const daysAdded = meta.daysAdded ? Number(meta.daysAdded) : undefined;
+    const days = meta.days ? Number(meta.days) : undefined;
+    const grantedDays = meta.grantedDays ? Number(meta.grantedDays) : undefined;
+    const expiredAt = meta.expiredAt ? new Date(meta.expiredAt) : undefined;
+
     switch (item.type) {
       case "purchased":
       case "subscription_purchased":
@@ -69,17 +67,26 @@ const ActivityPage = () => {
       case "extended":
       case "renewed":
       case "subscription_extended":
-        return period ? `Продлён Премиум +${period} дн.` : "Продлён Премиум";
+        return daysAdded
+          ? `Продлён Премиум +${daysAdded} дн.`
+          : "Продлён Премиум";
       case "subscription_expired":
         return "Подписка истекла";
       case "bonus":
       case "bonus_awarded":
       case "referral_bonus_added":
       case "bonus_claimed":
-        return period ? `Начислен бонус +${period} дн.` : "Начислен бонус";
+        if (item.type === "referral_bonus_added") {
+          return days
+            ? `Начислен бонус +${days} дн. (друг)`
+            : "Начислен бонус (друг)";
+        }
+        return days ? `Начислен бонус +${days} дн.` : "Начислен бонус";
       case "trial":
       case "trial_activated":
-        return "Активирован пробный период";
+        return grantedDays
+          ? `Активирован бонус +${grantedDays} дн.`
+          : "Активирован пробный период";
       case "referral_invited":
         return "Приглашён реферал";
       case "referral_registered":
@@ -142,7 +149,7 @@ const ActivityPage = () => {
           <ActivitySkeleton />
         ) : (
           activity.map((item) => (
-            <div key={item.id} className={styles.item}>
+            <div key={Math.random()} className={styles.item}>
               <div className={styles.icon}>{renderActivityIcon(item)}</div>
               <div className={styles.texts}>
                 <div className={styles.itemTitle}>

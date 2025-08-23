@@ -18,14 +18,7 @@ import Refresh from "@/icons/Refresh";
 import Close from "@/icons/Close";
 import Watch from "@/icons/Watch";
 import { ActivitySkeleton } from "@/components/skeleton";
-
-type ActivityItem = {
-  id: string;
-  customerId: string;
-  type: string;
-  meta?: Record<string, any> | null;
-  createdAt: string;
-};
+import { ActivityItem } from "./activity/types";
 
 const ProfilePage = () => {
   const { user } = useAuthContext();
@@ -74,6 +67,7 @@ const ProfilePage = () => {
 
   const [activity, setActivity] = useState<ActivityItem[]>([]);
   const [isActivityLoading, setIsActivityLoading] = useState(true);
+
   useEffect(() => {
     let cancelled = false;
     const load = async () => {
@@ -100,6 +94,10 @@ const ProfilePage = () => {
   const renderActivityTitle = (item: ActivityItem): string => {
     const meta = item.meta || {};
     const period = meta.period ? Number(meta.period) : undefined;
+    const daysAdded = meta.daysAdded ? Number(meta.daysAdded) : undefined;
+    const days = meta.days ? Number(meta.days) : undefined;
+    const grantedDays = meta.grantedDays ? Number(meta.grantedDays) : undefined;
+
     switch (item.type) {
       case "purchased":
       case "subscription_purchased":
@@ -107,17 +105,26 @@ const ProfilePage = () => {
       case "extended":
       case "renewed":
       case "subscription_extended":
-        return period ? `Продлён Премиум +${period} дн.` : "Продлён Премиум";
+        return daysAdded
+          ? `Продлён Премиум +${daysAdded} дн.`
+          : "Продлён Премиум";
       case "subscription_expired":
         return "Подписка истекла";
       case "bonus":
       case "bonus_awarded":
       case "referral_bonus_added":
       case "bonus_claimed":
-        return period ? `Начислен бонус +${period} дн.` : "Начислен бонус";
+        if (item.type === "referral_bonus_added") {
+          return days
+            ? `Начислен бонус +${days} дн. (друг)`
+            : "Начислен бонус (друг)";
+        }
+        return days ? `Начислен бонус +${days} дн.` : "Начислен бонус";
       case "trial":
       case "trial_activated":
-        return "Активирован пробный период";
+        return grantedDays
+          ? `Активирован бонус +${grantedDays} дн.`
+          : "Активирован пробный период";
       case "referral_invited":
         return "Приглашён реферал";
       case "referral_registered":
