@@ -111,15 +111,23 @@ const ReferralsPage = () => {
 	}
 
 	const handleShare = async () => {
-		if (shareMessage.isAvailable()) {
-			const { data } =
-				await api.get<
-					operations['InvoiceController_shareMessage']['responses']['200']['content']['application/json']
-				>('/invoice/share')
+		try {
+			if (shareMessage.isAvailable()) {
+				const { data } =
+					await api.get<
+						operations['InvoiceController_shareMessage']['responses']['200']['content']['application/json']
+					>('/invoice/share')
 
-			if (data?.id) {
-				await shareMessage(data.id)
-				return
+				if (data?.id) {
+					await shareMessage(data.id)
+					return
+				}
+			}
+		} catch (err: any) {
+			console.error('Failed to share:', err)
+
+			if (err?.response?.data) {
+				console.error('Backend response:', err.response.data)
 			}
 		}
 	}
