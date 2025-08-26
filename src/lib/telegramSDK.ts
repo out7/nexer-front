@@ -1,112 +1,78 @@
 /* eslint-disable */
+import { isMobileDevice } from '@/lib/tools/isMobile'
 import {
-  bindThemeParamsCssVars,
-  bindViewportCssVars,
-  init as initSDK,
-  miniApp,
-  mountSwipeBehavior,
-  mountBackButton,
-  mountViewport,
-  onBackButtonClick,
-  requestFullscreen,
-  disableVerticalSwipes,
-  restoreInitData,
-  setDebug,
-  showBackButton,
-} from "@telegram-apps/sdk-react";
-import { hideBackButton, offBackButtonClick } from "@telegram-apps/sdk";
-
-import { isMobileDevice } from "./tools/isMobile";
+	bindThemeParamsCssVars,
+	bindViewportCssVars,
+	disableVerticalSwipes,
+	hideBackButton,
+	mountSwipeBehavior,
+	mountViewport,
+	offBackButtonClick,
+	requestFullscreen,
+} from '@telegram-apps/sdk'
+import {
+	init as initSDK,
+	miniApp,
+	mountBackButton,
+	onBackButtonClick,
+	restoreInitData,
+	setDebug,
+	showBackButton,
+} from '@telegram-apps/sdk-react'
 
 export async function telegramSDKInit(options: {
-  debug: boolean;
-  eruda: boolean;
+	debug: boolean
+	eruda: boolean
 }): Promise<void> {
-  setDebug(options.debug);
+	setDebug(options.debug)
 
-  initSDK();
+	initSDK()
 
-  options.eruda &&
-    void import("eruda").then(({ default: eruda }) => {
-      eruda.init();
+	options.eruda &&
+		void import('eruda').then(({ default: eruda }) => {
+			eruda.init()
+			eruda.position({ x: window.innerWidth - 50, y: 100 })
+		})
 
-      const getSafeAreaInsetBottom = (): number => {
-        try {
-          const probe = document.createElement("div");
-          probe.style.position = "fixed";
-          probe.style.bottom = "0";
-          probe.style.left = "0";
-          probe.style.width = "0";
-          probe.style.height = "constant(safe-area-inset-bottom)";
-          probe.style.height = "env(safe-area-inset-bottom)";
-          probe.style.pointerEvents = "none";
-          document.body.appendChild(probe);
-          const value = parseFloat(getComputedStyle(probe).height) || 0;
-          document.body.removeChild(probe);
-          return Number.isFinite(value) ? value : 0;
-        } catch {
-          return 0;
-        }
-      };
+	// Mount Back Button
+	mountBackButton.ifAvailable()
+	restoreInitData()
 
-      const positionErudaButton = () => {
-        const BUTTON_SIZE = 50;
-        const MARGIN = 16;
-        const EXTRA_BOTTOM_OFFSET = 24;
-        const safeBottom = getSafeAreaInsetBottom();
+	// Mount MiniApp
+	if (miniApp.mountSync.isAvailable()) {
+		miniApp.mountSync()
+		bindThemeParamsCssVars()
+	}
 
-        const x = Math.max(MARGIN, window.innerWidth - BUTTON_SIZE - MARGIN);
-        const y = Math.max(
-          MARGIN,
-          window.innerHeight - BUTTON_SIZE - (EXTRA_BOTTOM_OFFSET + safeBottom)
-        );
+	// Disable Vertical Swipes
+	if (mountSwipeBehavior?.isAvailable?.()) {
+		mountSwipeBehavior()
+		if (disableVerticalSwipes?.isAvailable?.()) {
+			disableVerticalSwipes()
+		}
+	}
 
-        eruda.position({ x, y });
-      };
+	mountViewport.isAvailable() &&
+		mountViewport().then(async () => {
+			bindViewportCssVars()
 
-      positionErudaButton();
-
-      window.addEventListener("resize", positionErudaButton);
-      window.addEventListener("orientationchange", positionErudaButton);
-      window.visualViewport?.addEventListener("resize", positionErudaButton);
-    });
-
-  mountBackButton.ifAvailable();
-  restoreInitData();
-
-  if (miniApp.mountSync.isAvailable()) {
-    miniApp.mountSync();
-    bindThemeParamsCssVars();
-  }
-
-  // Mount swipe behavior and disable vertical swipes if available
-  if (mountSwipeBehavior?.isAvailable?.()) {
-    mountSwipeBehavior();
-    if (disableVerticalSwipes?.isAvailable?.()) {
-      disableVerticalSwipes();
-    }
-  }
-
-  mountViewport.isAvailable() &&
-    mountViewport().then(async () => {
-      bindViewportCssVars();
-
-      if (requestFullscreen.isAvailable() && isMobileDevice()) {
-        await requestFullscreen();
-      }
-    });
+			// Request Fullscreen
+			if (requestFullscreen.isAvailable() && isMobileDevice()) {
+				await requestFullscreen()
+			}
+		})
 }
 
 export const handleBackButton = (callback: () => void) => {
-  showBackButton();
-  const handler = () => callback();
-  onBackButtonClick(handler);
-  return () => {
-    try {
-      offBackButtonClick(handler);
-    } catch {}
-    try {
-      hideBackButton();
-    } catch {}
-  };
-};
+	showBackButton()
+	const handler = () => callback()
+	onBackButtonClick(handler)
+	return () => {
+		try {
+			offBackButtonClick(handler)
+		} catch {}
+		try {
+			hideBackButton()
+		} catch {}
+	}
+}

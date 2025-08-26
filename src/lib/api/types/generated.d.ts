@@ -174,6 +174,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1.0/invoice/share": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Create a prepared inline message and return its identifier
+         * @description Calls Telegram Bot API savePreparedInlineMessage and returns only the prepared message id.
+         */
+        get: operations["InvoiceController_shareMessage"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1.0/webhook/trbt": {
         parameters: {
             query?: never;
@@ -355,7 +375,7 @@ export interface components {
              * @description Referee Telegram ID
              * @example 944276139
              */
-            refereeTelegramId?: string;
+            referredCustomerId?: string;
             /** @example payment_abc123 */
             sourcePaymentId?: string;
         };
@@ -454,6 +474,13 @@ export interface components {
              * @example https://t.me/...
              */
             url: string;
+        };
+        PreparedMessageIdDto: {
+            /**
+             * @description Unique identifier of the prepared message returned by Telegram.
+             * @example SV0IPXOK3qUxjxVL
+             */
+            id: string;
         };
         WebhookResponseDto: {
             /**
@@ -749,6 +776,26 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+        };
+    };
+    InvoiceController_shareMessage: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Prepared message identifier. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PreparedMessageIdDto"];
+                };
             };
         };
     };
