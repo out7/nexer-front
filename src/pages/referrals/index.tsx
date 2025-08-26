@@ -122,6 +122,8 @@ const ReferralsPage = () => {
 					await shareMessage(data.id)
 					return
 				}
+			} else {
+				console.error('Share message is not available')
 			}
 		} catch (err: any) {
 			console.error('Failed to share:', err)
