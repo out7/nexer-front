@@ -171,14 +171,27 @@ const Guide = () => {
 													</p>
 												</div>
 												{user?.customerSubscription?.subscriptionUrl ? (
-													<a
-														href={`${app.urlScheme}${encodeURIComponent(String(subUrl))}`}
-														className={styles.button}
-														target='_blank'
-														rel='noopener noreferrer'
-													>
-														Добавить подписку
-													</a>
+													platform === 'pc' ? (
+														<a
+															href={`https://miniapp.nexervpn.run/deeplink?redirect_to=${app.urlScheme}${subUrl}`}
+															className={styles.button}
+															target='_blank'
+															rel='noopener noreferrer'
+														>
+															Добавить подписку
+														</a>
+													) : (
+														<a
+															href={`https://miniapp.nexervpn.run/deeplink?redirect_to=${app.urlScheme}${encodeURIComponent(
+																String(subUrl)
+															)}`}
+															className={styles.button}
+															target='_blank'
+															rel='noopener noreferrer'
+														>
+															Добавить подписку
+														</a>
+													)
 												) : (
 													<button className={styles.button} disabled>
 														Добавить подписку
