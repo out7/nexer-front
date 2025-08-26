@@ -14,7 +14,6 @@
 		"@heroui/react": "^2.8.2",
 		"@heroui/system": "^2.4.20",
 		"@heroui/theme": "^2.4.20",
-		"@telegram-apps/bridge": "^2.11.0",
 		"@telegram-apps/sdk": "^3.11.5",
 		"@telegram-apps/sdk-react": "^3.3.6",
 		"@tailwindcss/postcss": "^4.0.11",
