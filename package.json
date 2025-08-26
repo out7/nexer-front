@@ -17,6 +17,7 @@
 		"@telegram-apps/bridge": "^2.11.0",
 		"@telegram-apps/sdk": "^3.11.5",
 		"@telegram-apps/sdk-react": "^3.3.6",
+		"@tailwindcss/postcss": "^4.0.11",
 		"@types/canvas-confetti": "^1.9.0",
 		"axios": "^1.11.0",
 		"canvas-confetti": "^1.9.3",
