@@ -1,20 +1,19 @@
 /* eslint-disable */
 import { isMobileDevice } from '@/lib/tools/isMobile'
+
 import {
 	bindThemeParamsCssVars,
 	bindViewportCssVars,
 	disableVerticalSwipes,
 	hideBackButton,
-	mountSwipeBehavior,
-	mountViewport,
-	offBackButtonClick,
-	requestFullscreen,
-} from '@telegram-apps/sdk'
-import {
 	init as initSDK,
 	miniApp,
 	mountBackButton,
+	mountSwipeBehavior,
+	mountViewport,
+	offBackButtonClick,
 	onBackButtonClick,
+	requestFullscreen,
 	restoreInitData,
 	setDebug,
 	showBackButton,
