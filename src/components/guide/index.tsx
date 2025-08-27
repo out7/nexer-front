@@ -29,18 +29,19 @@ const Guide = () => {
 				if (!res.ok) throw new Error('Ошибка загрузки')
 				const data = await res.json()
 
-				// если что-то пошло не так с данными
-				if (!data || !Array.isArray(data)) {
-					throw new Error('Неверный формат данных')
-				}
+				const normalized = Array.isArray(data) ? data : [data]
 
-				setItems(data)
+				setItems(normalized)
 			} catch (err) {
 				console.error(
 					'Не удалось скачать app-config.json, используем локальные:',
 					err
 				)
-				setItems(localItems)
+
+				const normalizedLocal = Array.isArray(localItems)
+					? localItems
+					: [localItems]
+				setItems(normalizedLocal)
 			}
 		}
 
@@ -59,7 +60,7 @@ const Guide = () => {
 		{ id: 'pc' as const, icon: <Desktop />, label: 'PC' },
 	]
 
-	const currentPlatformApps = items[0][selectedTab] as App[]
+	const currentPlatformApps = (items?.[0]?.[selectedTab] ?? []) as App[]
 
 	return (
 		<div className={styles.container}>
