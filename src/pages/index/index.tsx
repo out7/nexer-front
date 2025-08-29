@@ -22,9 +22,9 @@ const MainPage = () => {
 		<div className={styles.container} style={{ marginTop, paddingTop }}>
 			<Status />
 			<Gift />
-			<Notes />
 			{!isPaid && <Premium />}
 			<Guide />
+			<Notes />
 			<Help />
 		</div>
 	)

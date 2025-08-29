@@ -25,7 +25,9 @@ const Guide = () => {
 	useEffect(() => {
 		const loadItems = async () => {
 			try {
-				const res = await fetch('https://miniapp.nexervpn.run/app-config.json')
+				const base = import.meta.env.VITE_API_URL.replace(/\/api\/v1\.0$/, '')
+				const url = `${base}/app-config.json`
+				const res = await fetch(url)
 				if (!res.ok) throw new Error('Ошибка загрузки')
 				const data = await res.json()
 
