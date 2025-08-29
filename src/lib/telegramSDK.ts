@@ -1,55 +1,77 @@
 /* eslint-disable */
-import {
-  bindThemeParamsCssVars,
-  bindViewportCssVars,
-  init as initSDK,
-  miniApp,
-  mountBackButton,
-  mountViewport,
-  onBackButtonClick,
-  requestFullscreen,
-  restoreInitData,
-  setDebug,
-  showBackButton,
-} from "@telegram-apps/sdk-react";
+import { isMobileDevice } from '@/lib/tools/isMobile'
 
-import { isMobileDevice } from "./tools/isMobile";
+import {
+	bindThemeParamsCssVars,
+	bindViewportCssVars,
+	disableVerticalSwipes,
+	hideBackButton,
+	init as initSDK,
+	miniApp,
+	mountBackButton,
+	mountSwipeBehavior,
+	mountViewport,
+	offBackButtonClick,
+	onBackButtonClick,
+	requestFullscreen,
+	restoreInitData,
+	setDebug,
+	showBackButton,
+} from '@telegram-apps/sdk-react'
 
 export async function telegramSDKInit(options: {
-  debug: boolean;
-  eruda: boolean;
+	debug: boolean
+	eruda: boolean
 }): Promise<void> {
-  setDebug(options.debug);
+	setDebug(options.debug)
 
-  initSDK();
+	initSDK()
 
-  options.eruda &&
-    void import("eruda").then(({ default: eruda }) => {
-      eruda.init();
-      eruda.position({ x: window.innerWidth - 50, y: 0 });
-    });
+	options.eruda &&
+		void import('eruda').then(({ default: eruda }) => {
+			eruda.init()
+			eruda.position({ x: window.innerWidth - 50, y: 100 })
+		})
 
-  mountBackButton.ifAvailable();
-  restoreInitData();
+	// Mount Back Button
+	mountBackButton.ifAvailable()
+	restoreInitData()
 
-  if (miniApp.mountSync.isAvailable()) {
-    miniApp.mountSync();
-    bindThemeParamsCssVars();
-  }
+	// Mount MiniApp
+	if (miniApp.mountSync.isAvailable()) {
+		miniApp.mountSync()
+		bindThemeParamsCssVars()
+	}
 
-  mountViewport.isAvailable() &&
-    mountViewport().then(async () => {
-      bindViewportCssVars();
+	// Disable Vertical Swipes
+	if (mountSwipeBehavior?.isAvailable?.()) {
+		mountSwipeBehavior()
+		if (disableVerticalSwipes?.isAvailable?.()) {
+			disableVerticalSwipes()
+		}
+	}
 
-      if (requestFullscreen.isAvailable() && isMobileDevice()) {
-        await requestFullscreen();
-      }
-    });
+	mountViewport.isAvailable() &&
+		mountViewport().then(async () => {
+			bindViewportCssVars()
+
+			// Request Fullscreen
+			if (requestFullscreen.isAvailable() && isMobileDevice()) {
+				await requestFullscreen()
+			}
+		})
 }
 
 export const handleBackButton = (callback: () => void) => {
-  showBackButton();
-  onBackButtonClick(() => {
-    callback();
-  });
-};
+	showBackButton()
+	const handler = () => callback()
+	onBackButtonClick(handler)
+	return () => {
+		try {
+			offBackButtonClick(handler)
+		} catch {}
+		try {
+			hideBackButton()
+		} catch {}
+	}
+}

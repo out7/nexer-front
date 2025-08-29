@@ -1,4 +1,416 @@
 .container {
-  background: var(--background-primary);
-  height: 100vh;
+  background: #171717;
+  min-height: 100vh;
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  padding-bottom: 20px;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  align-self: stretch;
+  gap: 10px;
+  padding: 0;
+  width: 100%;
+}
+
+.title h1 {
+  font-family: Inter, sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 1.333em;
+  color: #ffffff;
+  margin: 0;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+  margin: 0;
+  background: #18181b;
+  border: 1px solid #27272a;
+  box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+  border-radius: 12px;
+  width: 100%;
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  align-self: stretch;
+  gap: 8px;
+}
+
+.cardIcon {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #ffffff;
+}
+
+.cardTitle {
+  font-family: Inter, sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 1.333em;
+  color: #f4f4f5;
+  flex: 1;
+}
+
+.linkContainer {
+  display: flex;
+  align-items: center;
+  align-self: stretch;
+  padding: 8px;
+  background: rgba(42, 42, 42, 0.5);
+  border-radius: 8px;
+  width: 100%;
+}
+
+.referralLink {
+  font-family: Inter, sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.429em;
+  color: #b2b2b2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.buttonGroup {
+  display: flex;
+  justify-content: stretch;
+  align-items: stretch;
+  align-self: stretch;
+  gap: 8px;
+  width: 100%;
+}
+
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  padding: 8px;
+  background: #6d6d6d;
+  border: none;
+  border-radius: 8px;
+  color: #ffffff;
+  font-family: Inter, sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.143em;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  flex: 1;
+
+  &:hover {
+    background: #5a5a5a;
+  }
+
+  &:active {
+    background: #4a4a4a;
+  }
+}
+
+.copyButton,
+.shareButton {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.bonusBadge {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  width: 24px;
+  height: 24px;
+  background: #124ee4;
+  border-radius: 8px;
+}
+
+.bonusBadge span {
+  font-family: Inter, sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 0.889em;
+  color: #f4f4f5;
+}
+
+.bonusDescription {
+  display: flex;
+  align-items: center;
+  align-self: stretch;
+  gap: 8px;
+  padding: 0;
+  font-family: Inter, sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.143em;
+  color: #6d6d6d;
+  width: 100%;
+}
+
+.claimButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: stretch;
+  gap: 6px;
+  padding: 8px 0;
+  background: #124ee4;
+  border: none;
+  border-radius: 8px;
+  color: #ffffff;
+  font-family: Inter, sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.5em;
+  cursor: pointer;
+  box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25);
+  transition: background-color 0.2s ease;
+  min-height: 40px;
+  height: 40px;
+
+  &:hover:not(:disabled) {
+    background: #0f3db8;
+  }
+
+  &:active:not(:disabled) {
+    background: #0a2a8a;
+  }
+
+  &.disabled {
+    background: #6d6d6d;
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+
+  &.loading {
+    background: #124ee4;
+    opacity: 0.8;
+    min-height: 40px;
+    max-height: 40px;
+    height: 40px;
+    padding: 0;
+  }
+}
+
+.statsContainer {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  align-self: stretch;
+  gap: 12px;
+  padding: 0;
+  width: 100%;
+}
+
+.statItem {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  width: 72px;
+}
+
+.statNumber {
+  font-family: Inter, sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 1em;
+  color: #f4f4f5;
+}
+
+.statLabel {
+  font-family: Inter, sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.143em;
+  color: #6d6d6d;
+}
+
+.viewAll {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: background-color 0.2s ease;
+}
+
+.viewAll:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.viewAll span {
+  color: #6d6d6d;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.viewAll svg {
+  width: 16px;
+  height: 16px;
+}
+
+.viewAll svg path {
+  fill: #6d6d6d;
+}
+
+.referralsList {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-self: stretch;
+  gap: 16px;
+  width: 100%;
+}
+
+.referralItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  align-self: stretch;
+  gap: 12px;
+  padding: 0;
+  width: 100%;
+}
+
+.referralInfo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  width: 32px;
+  height: 32px;
+  background: #ffffff;
+  border-radius: 32px;
+  color: #000000;
+}
+
+.referralDetails {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+}
+
+.telegramId {
+  font-family: Inter, sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.143em;
+  color: #f4f4f5;
+}
+
+.date {
+  font-family: Inter, sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1.167em;
+  color: #6d6d6d;
+}
+
+.statusBadge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-family: Inter, sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1.167em;
+  color: #f4f4f5;
+  min-width: fit-content;
+}
+
+.statusBadge svg {
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
+}
+
+.statusTrial {
+  background: #c4841d;
+}
+
+.statusPurchased {
+  background: #0e793c;
+}
+
+.statusInactive {
+  background: #6d6d6d;
+}
+
+.infoText {
+  display: flex;
+  align-items: center;
+  align-self: stretch;
+  gap: 8px;
+  padding: 0;
+  font-family: Inter, sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.143em;
+  color: #6d6d6d;
+  text-align: left;
+  line-height: 1.5;
+  width: 100%;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+  color: #6d6d6d;
+  font-family: Inter, sans-serif;
+  font-size: 14px;
+}
+
+.error {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+  color: #ef4444;
+  font-family: Inter, sans-serif;
+  font-size: 14px;
+  text-align: center;
+}
+
+.empty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+  color: #6d6d6d;
+  font-family: Inter, sans-serif;
+  font-size: 14px;
+  text-align: center;
 }

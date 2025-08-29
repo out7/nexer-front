@@ -1,7 +1,5 @@
 .container {
   background: var(--background-primary);
   min-height: var(--tg-viewport-stable-height, 100vh);
-  padding-top: max(env(safe-area-inset-top), 10px);
-  padding-bottom: 70px;
   box-sizing: border-box;
 }

@@ -12,8 +12,10 @@ COPY . .
 
 RUN bun run build
 
-FROM nginx:1.29.0-alpine AS runner
-COPY --from=builder /usr/src/app/dist /usr/share/nginx/html
+FROM docker.angie.software/angie:1.9.1-alpine AS runner
+COPY --from=builder /usr/src/app/dist /usr/share/angie/html
 COPY env.sh /env.sh
-RUN chmod +x /env.sh
-CMD [ "/env.sh" ]
+
+ENTRYPOINT [ "/bin/sh", "env.sh" ]
+
+CMD ["angie", "-g", "daemon off;"]

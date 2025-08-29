@@ -6,7 +6,7 @@
   "status": {
     "active": "Active",
     "expired": "Expired",
-    "noSubscription": "No subscription",
+    "none": "No subscription",
     "title": "Subscription status",
     "daysLeft": "Days left:",
     "expiresAt": "Expires at:",
@@ -15,7 +15,12 @@
     "days": "{{count}} days",
     "day_one": "{{count}} day",
     "day_other": "{{count}} days",
-    "date": "{{date, MMMM DD, YYYY}}"
+    "date": "{{date, MMMM DD, YYYY}}",
+    "timeLeft": {
+      "days": "{{days}} day {{hours}}h",
+      "hours": "{{hours}}h {{minutes}}m",
+      "minutes": "{{minutes}}m"
+    }
   },
   "gift": {
     "title": "YOU HAVE",
@@ -27,6 +32,7 @@
     "title": "UPGRADE TO",
     "highlight": "PREMIUM",
     "features": {
+      "locations": "Servers in multiple countries",
       "speed": "Ultra-fast connection",
       "devices": "Connect up to 5 devices",
       "traffic": "Unlimited traffic"

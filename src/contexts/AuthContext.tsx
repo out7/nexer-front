@@ -47,23 +47,15 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       setUser(response.data);
     } catch (err: any) {
       console.error("Error fetching user profile:", err);
-      if (err.response?.status !== 401) {
-        setError("Ошибка при получении данных пользователя");
-        logout();
-      }
+      setError("Ошибка при получении данных пользователя");
       throw err;
     }
   };
 
   const authenticate = async () => {
     try {
-      const storedToken = localStorage.getItem("accessToken");
-
-      if (storedToken) {
-        await refreshUserData();
-        setIsLoading(false);
-        return;
-      }
+      setIsLoading(true);
+      setError(null);
 
       const initDataRaw = initData.raw();
       if (!initDataRaw) {

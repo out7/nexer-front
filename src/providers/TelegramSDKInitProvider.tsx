@@ -1,16 +1,20 @@
-import type { PropsWithChildren } from "react";
+import type { PropsWithChildren } from 'react'
 
-import { useClientOnce } from "@/hooks/useClientOnce";
-import { telegramSDKInit } from "@/lib/telegramSDK";
-import { useTelegramMock } from "@/hooks/useTelegramMock";
+import { useClientOnce } from '@/hooks/useClientOnce'
+import { useTelegramMock } from '@/hooks/useTelegramMock'
+import { telegramSDKInit } from '@/lib/telegramSDK'
 
 export function TelegramSDKInitProvider({ children }: PropsWithChildren) {
-  useTelegramMock();
+	useTelegramMock()
 
-  useClientOnce(() => {
-    const isDebug = import.meta.env.VITE_DEBUG === "true";
-    telegramSDKInit({ debug: isDebug, eruda: false });
-  });
+	useClientOnce(() => {
+		const isDebug = import.meta.env.VITE_DEBUG === 'true'
+		const isEruda = import.meta.env.VITE_ERUDA === 'true'
+		telegramSDKInit({
+			debug: isDebug,
+			eruda: isEruda,
+		})
+	})
 
-  return <>{children}</>;
+	return <>{children}</>
 }

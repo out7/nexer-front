@@ -80,6 +80,137 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1.0/subscriptions/bonus/claim": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Claim unclaimed bonus days
+         * @description Converts all unclaimed bonus days into subscription time for the authenticated user and returns the updated customer.
+         */
+        post: operations["SubscriptionController_claimMyBonus"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1.0/activity": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get activity logs for customer */
+        get: operations["ActivityLogController_list"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1.0/tariffs": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get available tariff plans
+         * @description Returns a list of available tariff (subscription) plans with pricing in RUB and Telegram Stars, including discounts if available.
+         */
+        get: operations["TariffController_getAllTariffs"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1.0/referrals/me": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get my referrals
+         * @description Returns a list of customers invited by the current authenticated user
+         */
+        get: operations["ReferralController_getMyReferrals"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1.0/invoice/tariff/{code}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Generate a payment link for a tariff using Telegram Stars */
+        get: operations["InvoiceController_getInvoice"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1.0/invoice/share": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Create a prepared inline message and return its identifier
+         * @description Calls Telegram Bot API savePreparedInlineMessage and returns only the prepared message id.
+         */
+        get: operations["InvoiceController_shareMessage"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1.0/webhook/trbt": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Receive new subscription webhook from TRBT */
+        post: operations["WebhookController_handleNewSubscription"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -160,6 +291,203 @@ export interface components {
             updatedAt: string;
             /** @description Customer subscription info (if exists) */
             customerSubscription: components["schemas"]["CustomerSubscriptionResponseDto"] | null;
+        };
+        SubscriptionPurchasedMetaDto: {
+            /**
+             * @description Subscription period in days
+             * @example 30
+             */
+            period: number;
+            /**
+             * @description Payment platform used for the purchase
+             * @example telegram_stars
+             * @enum {string}
+             */
+            platform: "telegram_stars" | "trbt";
+            /**
+             * @description Amount paid in minor currency units
+             * @example 10100
+             */
+            amount?: number;
+            /**
+             * @description New subscription end date (ISO string)
+             * @example 2025-09-17T12:00:00Z
+             */
+            newEndDate?: string;
+        };
+        SubscriptionExtendedMetaDto: {
+            /**
+             * @description Days added to current subscription
+             * @example 30
+             */
+            daysAdded: number;
+            /**
+             * @description Payment platform
+             * @example telegram_stars
+             * @enum {string}
+             */
+            platform?: "telegram_stars" | "trbt";
+            /**
+             * @description Amount paid in minor currency units
+             * @example 10100
+             */
+            amount?: number;
+            /**
+             * @description Previous subscription end date (ISO string)
+             * @example 2025-09-10T12:00:00Z
+             */
+            previousEndDate?: string;
+            /**
+             * @description New subscription end date (ISO string)
+             * @example 2025-10-10T12:00:00Z
+             */
+            newEndDate?: string;
+        };
+        SubscriptionExpiredMetaDto: {
+            /**
+             * @description Дата окончания подписки
+             * @example 2025-09-10T12:00:00Z
+             */
+            expiredAt: string;
+        };
+        BonusClaimedMetaDto: {
+            /**
+             * @description Days moved from bonus bank to subscription
+             * @example 7
+             */
+            days: number;
+            /** @example 2025-09-10T12:00:00Z */
+            previousEndDate?: string;
+            /** @example 2025-09-17T12:00:00Z */
+            newEndDate?: string;
+        };
+        TrialActivatedMetaDto: {
+            /** @example 3 */
+            grantedDays: number;
+        };
+        ReferralBonusAddedMetaDto: {
+            /**
+             * @description Days added to bonus bank
+             * @example 7
+             */
+            days: number;
+            /**
+             * @description Referee Telegram ID
+             * @example 944276139
+             */
+            referredCustomerId?: string;
+            /** @example payment_abc123 */
+            sourcePaymentId?: string;
+        };
+        ActivityLogDto: {
+            /** @example f7d5c79a-... */
+            id: string;
+            /** @example 9f2a6a1e-... */
+            customerId: string;
+            /**
+             * @example purchased
+             * @enum {string}
+             */
+            type: "subscription_purchased" | "subscription_extended" | "subscription_expired" | "trial_activated" | "bonus_claimed" | "referral_bonus_added";
+            /** @description Event-specific metadata. Shape depends on "type". */
+            meta: components["schemas"]["SubscriptionPurchasedMetaDto"] | components["schemas"]["SubscriptionExtendedMetaDto"] | components["schemas"]["SubscriptionExpiredMetaDto"] | components["schemas"]["BonusClaimedMetaDto"] | components["schemas"]["TrialActivatedMetaDto"] | components["schemas"]["ReferralBonusAddedMetaDto"];
+            /** @example 2025-08-08T10:22:33.214Z */
+            createdAt: string;
+        };
+        TariffDto: {
+            /**
+             * @description Unique code of the tariff plan (e.g. monthly, quarterly, halfyear)
+             * @example monthly
+             */
+            code: string;
+            /**
+             * @description Duration of the plan in months
+             * @example 1
+             */
+            months: number;
+            /**
+             * @description Current price of the plan in Russian rubles
+             * @example 200
+             */
+            priceRUB: number;
+            /**
+             * @description Current price of the plan in Telegram Stars
+             * @example 230
+             */
+            priceStars: number;
+            /**
+             * @description Old price in rubles (for discounts), null if no discount
+             * @example 600
+             */
+            priceOldRUB: Record<string, never> | null;
+            /**
+             * @description Old price in Telegram Stars (for discounts), null if no discount
+             * @example 690
+             */
+            priceOldStars: Record<string, never> | null;
+            /**
+             * @description Discount percentage, null or 0 if no discount
+             * @example 15
+             */
+            discount: Record<string, never> | null;
+            /**
+             * @description TRBT code of the tariff plan
+             * @example sz9u
+             */
+            trbtCode: Record<string, never>;
+            /**
+             * @description Actual price per month for this plan
+             * @example 200
+             */
+            perMonth: number;
+        };
+        ReferredDto: {
+            /** @description Masked Telegram ID of the referred user (last 4 digits only) */
+            telegramId: string;
+            /** @description Telegram username (optional) */
+            username?: string | null;
+        };
+        ReferralDto: {
+            /** @description Referral record ID (UUID) */
+            id: string;
+            /**
+             * @description Current status of the referral
+             * @enum {string}
+             */
+            status: "inactive" | "trial" | "purchased";
+            /**
+             * Format: date-time
+             * @description Date when the referral was created
+             */
+            createdAt: string;
+            /**
+             * Format: date-time
+             * @description Date when the referral was last updated
+             */
+            updatedAt: string;
+            /** @description Information about the referred user */
+            referred: components["schemas"]["ReferredDto"];
+        };
+        InvoiceUrlDto: {
+            /**
+             * @description Direct payment URL for Telegram Stars invoice
+             * @example https://t.me/...
+             */
+            url: string;
+        };
+        PreparedMessageIdDto: {
+            /**
+             * @description Unique identifier of the prepared message returned by Telegram.
+             * @example SV0IPXOK3qUxjxVL
+             */
+            id: string;
+        };
+        WebhookResponseDto: {
+            /**
+             * @description Webhook processed successfully
+             * @example ok
+             */
+            status: string;
         };
     };
     responses: never;
@@ -302,6 +630,204 @@ export interface operations {
             };
             /** @description Trial already used */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    SubscriptionController_claimMyBonus: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CustomerResponseDto"];
+                };
+            };
+            /** @description No unclaimed bonus days */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Customer not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    ActivityLogController_list: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ActivityLogDto"][];
+                };
+            };
+        };
+    };
+    TariffController_getAllTariffs: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description List of tariff plans */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TariffDto"][];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    ReferralController_getMyReferrals: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ReferralDto"][];
+                };
+            };
+        };
+    };
+    InvoiceController_getInvoice: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Unique tariff code (e.g., "quarterly") */
+                code: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Direct payment URL for the selected tariff via Telegram Stars */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["InvoiceUrlDto"];
+                };
+            };
+            /** @description Tariff not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    InvoiceController_shareMessage: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Prepared message identifier. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PreparedMessageIdDto"];
+                };
+            };
+        };
+    };
+    WebhookController_handleNewSubscription: {
+        parameters: {
+            query?: never;
+            header: {
+                "trbt-signature": string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Webhook successfully processed */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WebhookResponseDto"];
+                };
+            };
+            /** @description Empty or invalid body */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Missing or invalid signature */
+            401: {
                 headers: {
                     [name: string]: unknown;
                 };

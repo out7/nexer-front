@@ -1,0 +1,86 @@
+.container {
+  background: var(--background-primary);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow-y: scroll;
+  overflow-x: inherit;
+}
+
+.header {
+  width: 393px;
+  align-self: center;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.back {
+  background: transparent;
+  border: 1px solid var(--border-secondary);
+  border-radius: 8px;
+  color: var(--text-primary);
+  padding: 6px 10px;
+}
+
+.backIcon {
+  display: inline-flex;
+  transform: rotate(180deg);
+}
+
+.title {
+  color: var(--text-primary);
+  font-size: 18px;
+}
+
+.list {
+  width: 393px;
+  align-self: center;
+  padding: 0 20px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--background-tertiary);
+  border: 1px solid var(--border-secondary);
+  border-radius: 12px;
+  padding: 12px;
+}
+
+.icon {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #6d6d6d;
+  border-radius: 16px;
+}
+
+.texts {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.itemTitle {
+  color: var(--text-primary);
+  font-size: 14px;
+}
+
+.itemDate {
+  color: #6d6d6d;
+  font-size: 12px;
+}
+
+.empty {
+  color: #6d6d6d;
+  font-size: 14px;
+  padding: 0 20px;
+}

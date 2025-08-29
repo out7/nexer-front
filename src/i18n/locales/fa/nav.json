@@ -6,12 +6,22 @@
   "status": {
     "active": "فعال",
     "expired": "منقضی شده",
-    "noSubscription": "بدون اشتراک",
+    "none": "بدون اشتراک",
     "title": "وضعیت اشتراک",
     "daysLeft": "روزهای باقی مانده:",
     "expiresAt": "تاریخ انقضا:",
     "traffic": "ترافیک:",
-    "unlimited": "نامحدود"
+    "unlimited": "نامحدود",
+    "days": "{{count}} روز",
+    "day_one": "{{count}} روز",
+    "day_few": "{{count}} روز",
+    "day_many": "{{count}} روز",
+    "date": "{{date, DD MMMM YYYY}}",
+    "timeLeft": {
+      "days": "{{days}} روز {{hours}}س",
+      "hours": "{{hours}}س {{minutes}}د",
+      "minutes": "{{minutes}}د"
+    }
   },
   "gift": {
     "title": "شما",
@@ -23,6 +33,7 @@
     "title": "ارتقا به",
     "highlight": "اشتراک ویژه",
     "features": {
+      "locations": "سرورها در کشورهای مختلف",
       "speed": "اتصال فوق سریع",
       "devices": "اتصال تا 5 دستگاه",
       "traffic": "ترافیک نامحدود"

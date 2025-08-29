@@ -6,9 +6,10 @@ type StatusType = "active" | "expired" | "none";
 
 interface StatusIconProps {
   type: StatusType;
+  color?: string;
 }
 
-export const StatusIcon = ({ type }: StatusIconProps) => {
+export const StatusIcon = ({ type, color }: StatusIconProps) => {
   const Icon = (() => {
     switch (type) {
       case "active":
@@ -21,7 +22,7 @@ export const StatusIcon = ({ type }: StatusIconProps) => {
   })();
 
   return (
-    <span data-status={type}>
+    <span data-status={type} style={color ? { color } : undefined}>
       <Icon />
     </span>
   );
